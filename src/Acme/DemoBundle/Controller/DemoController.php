@@ -2,7 +2,8 @@
 
 namespace Acme\DemoBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+//use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Acme\DemoBundle\Controller\MyTestController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Acme\DemoBundle\Form\ContactType;
@@ -11,7 +12,7 @@ use Acme\DemoBundle\Form\ContactType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-class DemoController extends Controller
+class DemoController extends MyTestController
 {
     /**
      * @Route("/", name="_demo")
@@ -23,12 +24,14 @@ class DemoController extends Controller
     }
 
     /**
-     * @Route("/hello/{name}", name="_demo_hello")
+     * @Route("/paint/{name}/{mainUser}", name="_demo_paint")
      * @Template()
      */
-    public function helloAction($name)
+    public function paintAction($name, $mainUser)
     {
-        return array('name' => $name);
+        $this->data['mainUser']=$mainUser;
+        $this->data['name']=$name;
+        return $this->data;
     }
 
     /**

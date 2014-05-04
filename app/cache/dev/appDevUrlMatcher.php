@@ -201,9 +201,9 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                 return array (  '_controller' => 'Acme\\DemoBundle\\Controller\\DemoController::indexAction',  '_route' => '_demo',);
             }
 
-            // _demo_hello
-            if (0 === strpos($pathinfo, '/demo/hello') && preg_match('#^/demo/hello/(?P<name>[^/]++)$#s', $pathinfo, $matches)) {
-                return $this->mergeDefaults(array_replace($matches, array('_route' => '_demo_hello')), array (  '_controller' => 'Acme\\DemoBundle\\Controller\\DemoController::helloAction',));
+            // _demo_paint
+            if (0 === strpos($pathinfo, '/demo/paint') && preg_match('#^/demo/paint/(?P<name>[^/]++)/(?P<mainUser>[^/]++)$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => '_demo_paint')), array (  '_controller' => 'Acme\\DemoBundle\\Controller\\DemoController::paintAction',));
             }
 
             // _demo_contact

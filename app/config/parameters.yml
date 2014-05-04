@@ -3,12 +3,12 @@ parameters:
     database_driver: pdo_mysql
     database_host: 127.0.0.1
     database_port: null
-    database_name: symfony
-    database_user: root
-    database_password: null
+    database_name: shopcoords
+    database_user: chopcoord
+    database_password: scd
     mailer_transport: smtp
-    mailer_host: 127.0.0.1
-    mailer_user: null
-    mailer_password: null
+    mailer_host: gmail.com
+    mailer_user: koredalin
+    mailer_password: LifeGet
     locale: en
-    secret: ThisTokenIsNotSoSecretChangeIt
+    secret: 67e9fae43f49e81e51bcccd69e99c87c
