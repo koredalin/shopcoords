@@ -2,4 +2,4 @@ _assetic:
     resource: .
     type: assetic
 _app:
-    resource: /home/koredalin/public_html/sc241/app/config/routing_dev.yml
+    resource: /home/koredalin/public_html/sc242/app/config/routing_dev.yml
