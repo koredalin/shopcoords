@@ -16,3 +16,13 @@ _main:
 # AcmeDemoBundle routes (to be removed)
 _acme_demo:
     resource: "@AcmeDemoBundle/Resources/config/routing.yml"
+    
+#_acme_shop:
+#    resource: "@AcmeShopBundle/Resources/config/routing.yml"
+    
+#_acme_shops:
+#    resource: "@AcmeShopsBundle/Resources/config/routing.yml"
+    
+#sing:
+#    path: /sing/{name}
+#    defaults: { _controller: AcmeDemoBundle:Demo:sing }

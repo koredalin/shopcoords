@@ -1,0 +1,28 @@
+#_welcome:
+#    pattern:  /
+#    defaults: { _controller: AcmeDemoBundle:Welcome:index }
+
+#_shop_secured:
+#    resource: "@AcmeShopBundle/Controller/SecuredController.php"
+#    type:     annotation
+
+#_shop:
+#    resource: "@AcmeShopBundle/Controller/DefaultController.php"
+#    type:     annotation
+#    prefix:   /shop
+    
+#_demo2:
+#    resource: "@AcmeDemoBundle/Controller/Demo2Controller.php"
+#    type:     annotation
+#    prefix:   /demo2
+
+
+
+acme_shop_calc_shops:
+    pattern:  /shop/calcShops
+    defaults: { _controller: AcmeShopBundle:Shop:calcShops }
+#    prefix:   /shop
+
+acme_shop_homepage:
+    pattern:  /shop
+    defaults: { _controller: AcmeShopBundle:Shop:index }

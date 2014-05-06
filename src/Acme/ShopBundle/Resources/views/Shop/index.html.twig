@@ -1,0 +1,25 @@
+{% extends "AcmeShopBundle:Shop:layout.html.twig" %}
+{% block title %}List of Posts{% endblock %}
+{% block body %}
+
+<div id="main_container">
+    <div id="container">
+        <h2>Проверка местонахождение на магазини</h2>
+                <div id="input_request_data">
+                    <pre>
+            Въвеждане на координати
+            <input type="text" id="longitude" placeholder="Дължина">
+            <input type="number" id="latitude" placeholder="Ширина">
+            <input type="number" id="radius" placeholder="Радиус">
+            <button type="button" id="calc_btn">Проверка</button>
+                    </pre>
+                </div>
+                <div id="show_result">
+
+                </div>
+                <input type="hidden" id="calc_shops_path" 
+                       value="{{ url('acme_shop_calc_shops') }}">
+    </div>
+</div>
+
+{% endblock %}

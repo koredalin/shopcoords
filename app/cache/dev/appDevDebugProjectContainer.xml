@@ -17,6 +17,8 @@
       <parameter key="DoctrineBundle">Doctrine\Bundle\DoctrineBundle\DoctrineBundle</parameter>
       <parameter key="SensioFrameworkExtraBundle">Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle</parameter>
       <parameter key="AcmeHelloBundle">Acme\HelloBundle\AcmeHelloBundle</parameter>
+      <parameter key="AcmeShopBundle">Acme\ShopBundle\AcmeShopBundle</parameter>
+      <parameter key="AcmeShopsBundle">Acme\ShopsBundle\AcmeShopsBundle</parameter>
       <parameter key="AcmeDemoBundle">Acme\DemoBundle\AcmeDemoBundle</parameter>
       <parameter key="WebProfilerBundle">Symfony\Bundle\WebProfilerBundle\WebProfilerBundle</parameter>
       <parameter key="SensioDistributionBundle">Sensio\Bundle\DistributionBundle\SensioDistributionBundle</parameter>
@@ -28,7 +30,7 @@
     <parameter key="database_host">127.0.0.1</parameter>
     <parameter key="database_port">null</parameter>
     <parameter key="database_name">shopcoords</parameter>
-    <parameter key="database_user">chopcoord</parameter>
+    <parameter key="database_user">shopcoord</parameter>
     <parameter key="database_password">scd</parameter>
     <parameter key="mailer_transport">smtp</parameter>
     <parameter key="mailer_host">gmail.com</parameter>
@@ -420,7 +422,9 @@
     <parameter key="assetic.value_supplier.class">Symfony\Bundle\AsseticBundle\DefaultValueSupplier</parameter>
     <parameter key="assetic.node.paths" type="collection"/>
     <parameter key="assetic.cache_dir">/home/koredalin/public_html/sc242/app/cache/dev/assetic</parameter>
-    <parameter key="assetic.bundles" type="collection"/>
+    <parameter key="assetic.bundles" type="collection">
+      <parameter>AcmeShopBundle</parameter>
+    </parameter>
     <parameter key="assetic.twig_extension.class">Symfony\Bundle\AsseticBundle\Twig\AsseticExtension</parameter>
     <parameter key="assetic.twig_formula_loader.class">Assetic\Extension\Twig\TwigFormulaLoader</parameter>
     <parameter key="assetic.helper.dynamic.class">Symfony\Bundle\AsseticBundle\Templating\DynamicAsseticHelper</parameter>
@@ -2092,7 +2096,9 @@
             <argument type="service" id="templating.name_parser"/>
             <argument>true</argument>
             <argument type="collection"/>
-            <argument type="collection"/>
+            <argument type="collection">
+              <argument>AcmeShopBundle</argument>
+            </argument>
             <argument type="service" id="assetic.value_supplier.default" on-invalid="null"/>
           </service>
         </argument>
@@ -2157,6 +2163,11 @@
     <service id="assetic.asset_manager" class="Assetic\Factory\LazyAssetManager">
       <argument type="service" id="assetic.asset_factory"/>
       <argument type="collection">
+        <argument key="config" type="service">
+          <service class="Symfony\Bundle\AsseticBundle\Factory\Loader\ConfigurationLoader" public="false">
+            <tag name="assetic.formula_loader" alias="config"/>
+          </service>
+        </argument>
         <argument key="twig" type="service">
           <service class="Assetic\Factory\Loader\CachedFormulaLoader" public="false">
             <tag name="assetic.formula_loader" alias="twig"/>
@@ -2176,6 +2187,51 @@
           </service>
         </argument>
       </argument>
+      <call method="addResource">
+        <argument type="service">
+          <service class="Symfony\Bundle\AsseticBundle\Factory\Resource\ConfigurationResource" public="false">
+            <tag name="assetic.formula_resource" loader="config"/>
+            <argument type="collection">
+              <argument key="jquery_and_shop_js" type="collection">
+                <argument type="collection">
+                  <argument>@AcmeShopBundle/Resources/public/js/lib/jquery.min.js</argument>
+                  <argument>@AcmeShopBundle/Resources/public/js/shop.js</argument>
+                </argument>
+                <argument type="collection"/>
+                <argument type="collection"/>
+              </argument>
+            </argument>
+          </service>
+        </argument>
+        <argument>config</argument>
+      </call>
+      <call method="addResource">
+        <argument type="service">
+          <service class="Symfony\Bundle\AsseticBundle\Factory\Resource\CoalescingDirectoryResource" public="false">
+            <tag name="assetic.templating.twig"/>
+            <tag name="assetic.formula_resource" loader="twig"/>
+            <argument type="collection">
+              <argument type="service">
+                <service class="%assetic.directory_resource.class%" public="false">
+                  <argument type="service" id="templating.loader"/>
+                  <argument>AcmeShopBundle</argument>
+                  <argument>/home/koredalin/public_html/sc242/app/Resources/AcmeShopBundle/views</argument>
+                  <argument>/\.[^.]+\.twig$/</argument>
+                </service>
+              </argument>
+              <argument type="service">
+                <service class="%assetic.directory_resource.class%" public="false">
+                  <argument type="service" id="templating.loader"/>
+                  <argument>AcmeShopBundle</argument>
+                  <argument>/home/koredalin/public_html/sc242/src/Acme/ShopBundle/Resources/views</argument>
+                  <argument>/\.[^.]+\.twig$/</argument>
+                </service>
+              </argument>
+            </argument>
+          </service>
+        </argument>
+        <argument>twig</argument>
+      </call>
       <call method="addResource">
         <argument type="service">
           <service class="Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource" public="false">
@@ -2249,7 +2305,7 @@
         <argument key="host">127.0.0.1</argument>
         <argument key="port">null</argument>
         <argument key="dbname">shopcoords</argument>
-        <argument key="user">chopcoord</argument>
+        <argument key="user">shopcoord</argument>
         <argument key="password">scd</argument>
         <argument key="charset">UTF8</argument>
         <argument key="driverOptions" type="collection"/>
@@ -2308,7 +2364,9 @@
       <argument type="service">
         <service class="Doctrine\ORM\Configuration" public="false">
           <call method="setEntityNamespaces">
-            <argument type="collection"/>
+            <argument type="collection">
+              <argument key="AcmeShopBundle">Acme\ShopBundle\Entity</argument>
+            </argument>
           </call>
           <call method="setMetadataCacheImpl">
             <argument type="service">
@@ -2339,7 +2397,21 @@
           </call>
           <call method="setMetadataDriverImpl">
             <argument type="service">
-              <service class="Doctrine\ORM\Mapping\Driver\DriverChain" public="false"/>
+              <service class="Doctrine\ORM\Mapping\Driver\DriverChain" public="false">
+                <call method="addDriver">
+                  <argument type="service">
+                    <service class="Doctrine\ORM\Mapping\Driver\SimplifiedYamlDriver" public="false">
+                      <argument type="collection">
+                        <argument key="/home/koredalin/public_html/sc242/src/Acme/ShopBundle/Resources/config/doctrine">Acme\ShopBundle\Entity</argument>
+                      </argument>
+                      <call method="setGlobalBasename">
+                        <argument>mapping</argument>
+                      </call>
+                    </service>
+                  </argument>
+                  <argument>Acme\ShopBundle\Entity</argument>
+                </call>
+              </service>
             </argument>
           </call>
           <call method="setProxyDir">
@@ -2720,6 +2792,14 @@
       <call method="addPath">
         <argument>/home/koredalin/public_html/sc242/src/Acme/HelloBundle/Resources/views</argument>
         <argument>AcmeHello</argument>
+      </call>
+      <call method="addPath">
+        <argument>/home/koredalin/public_html/sc242/src/Acme/ShopBundle/Resources/views</argument>
+        <argument>AcmeShop</argument>
+      </call>
+      <call method="addPath">
+        <argument>/home/koredalin/public_html/sc242/src/Acme/ShopsBundle/Resources/views</argument>
+        <argument>AcmeShops</argument>
       </call>
       <call method="addPath">
         <argument>/home/koredalin/public_html/sc242/src/Acme/DemoBundle/Resources/views</argument>

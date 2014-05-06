@@ -33,8 +33,14 @@ twig:
 assetic:
     debug:          "%kernel.debug%"
     use_controller: false
-    bundles:        [ ]
+    bundles:        [ AcmeShopBundle ]
     #java: /usr/bin/java
+    assets: 
+        jquery_and_shop_js:
+            inputs:
+                - '@AcmeShopBundle/Resources/public/js/lib/jquery.min.js'
+                - '@AcmeShopBundle/Resources/public/js/shop.js'
+    #            - '@AcmeFooBundle/Resources/public/js/thirdparty/jquery.ui.js'
     filters:
         cssrewrite: ~
         #closure:

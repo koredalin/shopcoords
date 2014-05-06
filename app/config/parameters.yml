@@ -4,7 +4,7 @@ parameters:
     database_host: 127.0.0.1
     database_port: null
     database_name: shopcoords
-    database_user: chopcoord
+    database_user: shopcoord
     database_password: scd
     mailer_transport: smtp
     mailer_host: gmail.com

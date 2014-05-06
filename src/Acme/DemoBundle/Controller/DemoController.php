@@ -35,6 +35,17 @@ class DemoController extends MyTestController
     }
 
     /**
+     * @Route("/sing/{name}", name="_demo_sing")
+     * @Template()
+     */
+    public function singAction($name)
+    {
+        // $this->data['mainUser']=$mainUser;
+        $this->data['name']=$name;
+        return $this->data;
+    }
+    
+    /**
      * @Route("/contact", name="_demo_contact")
      * @Template()
      */

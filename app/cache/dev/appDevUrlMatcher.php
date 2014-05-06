@@ -135,9 +135,71 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
 
         }
 
+        // acme_shops_homepage
+        if (0 === strpos($pathinfo, '/hello') && preg_match('#^/hello/(?P<name>[^/]++)$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'acme_shops_homepage')), array (  '_controller' => 'Acme\\ShopsBundle\\Controller\\DefaultController::indexAction',));
+        }
+
+        if (0 === strpos($pathinfo, '/shop')) {
+            // acme_shop_calc_shops
+            if ($pathinfo === '/shop/calcShops') {
+                return array (  '_controller' => 'Acme\\ShopBundle\\Controller\\ShopController::calcShopsAction',  '_route' => 'acme_shop_calc_shops',);
+            }
+
+            // acme_shop_homepage
+            if ($pathinfo === '/shop') {
+                return array (  '_controller' => 'Acme\\ShopBundle\\Controller\\ShopController::indexAction',  '_route' => 'acme_shop_homepage',);
+            }
+
+        }
+
         // acme_hello_homepage
         if (0 === strpos($pathinfo, '/hello') && preg_match('#^/hello/(?P<name>[^/]++)$#s', $pathinfo, $matches)) {
             return $this->mergeDefaults(array_replace($matches, array('_route' => 'acme_hello_homepage')), array (  '_controller' => 'Acme\\HelloBundle\\Controller\\DefaultController::indexAction',));
+        }
+
+        // _assetic_jquery_and_shop_js
+        if ($pathinfo === '/js/47301cd_part_1.js') {
+            return array (  '_controller' => 'assetic.controller:render',  'name' => 'jquery_and_shop_js',  'pos' => NULL,  '_format' => 'js',  '_route' => '_assetic_jquery_and_shop_js',);
+        }
+
+        if (0 === strpos($pathinfo, '/assetic/jquery_and_shop_js_')) {
+            // _assetic_jquery_and_shop_js_0
+            if ($pathinfo === '/assetic/jquery_and_shop_js_jquery.min_1.js') {
+                return array (  '_controller' => 'assetic.controller:render',  'name' => 'jquery_and_shop_js',  'pos' => 0,  '_format' => 'js',  '_route' => '_assetic_jquery_and_shop_js_0',);
+            }
+
+            // _assetic_jquery_and_shop_js_1
+            if ($pathinfo === '/assetic/jquery_and_shop_js_shop_2.js') {
+                return array (  '_controller' => 'assetic.controller:render',  'name' => 'jquery_and_shop_js',  'pos' => 1,  '_format' => 'js',  '_route' => '_assetic_jquery_and_shop_js_1',);
+            }
+
+        }
+
+        if (0 === strpos($pathinfo, '/js/47301cd')) {
+            // _assetic_47301cd
+            if ($pathinfo === '/js/47301cd.js') {
+                return array (  '_controller' => 'assetic.controller:render',  'name' => '47301cd',  'pos' => NULL,  '_format' => 'js',  '_route' => '_assetic_47301cd',);
+            }
+
+            // _assetic_47301cd_0
+            if ($pathinfo === '/js/47301cd_part_1.js') {
+                return array (  '_controller' => 'assetic.controller:render',  'name' => '47301cd',  'pos' => 0,  '_format' => 'js',  '_route' => '_assetic_47301cd_0',);
+            }
+
+        }
+
+        if (0 === strpos($pathinfo, '/css/cbbeec0')) {
+            // _assetic_cbbeec0
+            if ($pathinfo === '/css/cbbeec0.css') {
+                return array (  '_controller' => 'assetic.controller:render',  'name' => 'cbbeec0',  'pos' => NULL,  '_format' => 'css',  '_route' => '_assetic_cbbeec0',);
+            }
+
+            // _assetic_cbbeec0_0
+            if ($pathinfo === '/css/cbbeec0_shop_1.css') {
+                return array (  '_controller' => 'assetic.controller:render',  'name' => 'cbbeec0',  'pos' => 0,  '_format' => 'css',  '_route' => '_assetic_cbbeec0_0',);
+            }
+
         }
 
         // _welcome
@@ -206,9 +268,41 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                 return $this->mergeDefaults(array_replace($matches, array('_route' => '_demo_paint')), array (  '_controller' => 'Acme\\DemoBundle\\Controller\\DemoController::paintAction',));
             }
 
+            // _demo_sing
+            if (0 === strpos($pathinfo, '/demo/sing') && preg_match('#^/demo/sing/(?P<name>[^/]++)$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => '_demo_sing')), array (  '_controller' => 'Acme\\DemoBundle\\Controller\\DemoController::singAction',));
+            }
+
             // _demo_contact
             if ($pathinfo === '/demo/contact') {
                 return array (  '_controller' => 'Acme\\DemoBundle\\Controller\\DemoController::contactAction',  '_route' => '_demo_contact',);
+            }
+
+            if (0 === strpos($pathinfo, '/demo2')) {
+                // _demo2
+                if (rtrim($pathinfo, '/') === '/demo2') {
+                    if (substr($pathinfo, -1) !== '/') {
+                        return $this->redirect($pathinfo.'/', '_demo2');
+                    }
+
+                    return array (  '_controller' => 'Acme\\DemoBundle\\Controller\\Demo2Controller::indexAction',  '_route' => '_demo2',);
+                }
+
+                // _demo2_paint
+                if (0 === strpos($pathinfo, '/demo2/paint') && preg_match('#^/demo2/paint/(?P<name>[^/]++)/(?P<mainUser>[^/]++)$#s', $pathinfo, $matches)) {
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => '_demo2_paint')), array (  '_controller' => 'Acme\\DemoBundle\\Controller\\Demo2Controller::paintAction',));
+                }
+
+                // _demo2_sing
+                if (0 === strpos($pathinfo, '/demo2/sing') && preg_match('#^/demo2/sing/(?P<name>[^/]++)$#s', $pathinfo, $matches)) {
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => '_demo2_sing')), array (  '_controller' => 'Acme\\DemoBundle\\Controller\\Demo2Controller::singAction',));
+                }
+
+                // _demo2_contact
+                if ($pathinfo === '/demo2/contact') {
+                    return array (  '_controller' => 'Acme\\DemoBundle\\Controller\\Demo2Controller::contactAction',  '_route' => '_demo2_contact',);
+                }
+
             }
 
         }
