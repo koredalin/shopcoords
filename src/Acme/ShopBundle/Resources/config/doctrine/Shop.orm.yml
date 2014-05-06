@@ -1,0 +1,24 @@
+Acme\ShopBundle\Entity\Shop:
+    type: entity
+    table: null
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: '60'
+        contacts:
+            type: string
+            length: 255
+        description:
+            type: string
+            length: 255
+        longitude:
+            type: integer
+        latitude:
+            type: integer
+    lifecycleCallbacks: {  }
