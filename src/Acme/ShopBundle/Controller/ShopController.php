@@ -3,13 +3,14 @@
 namespace Acme\ShopBundle\Controller;
 
 // use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
+// use Symfony\Component\BrowserKit\Request;
+// use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Acme\DemoBundle\Entity\Client;
+use Acme\ShopBundle\Entity\Client;
 
 class ShopController extends ShopMainController {
 
-    public function indexAction() {
+        public function indexAction() {
         $this->data['name'] = 'Shoes';
 //        $this->data['ajax_request_path']=$this->generateUrl('calc_path', 
 //                array('slug' => 'my-blog-post'), true);
@@ -21,9 +22,8 @@ class ShopController extends ShopMainController {
         $this->data['client_id'] = 8;
         $this->data['my_name'] = 'Hristo';
 
-        $result=array('result' => 16);
         // create a JSON-response with a 200 status code
-        $response = new Response(json_encode($result));
+        $response = new Response(json_encode($this->data));
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
@@ -33,8 +33,8 @@ class ShopController extends ShopMainController {
     public function insertClientAction() {
         $client = new Client();
         $client->setFirstName('Dimitar');
-        $client->setLastName('Ivanov');
-        $client->setEmail('divanov@yahoo.com');
+        $client->setLastName('Iliev');
+        $client->setEmail('diliev@yahoo.com');
         $em = $this->getDoctrine()->getManager();
         $em->persist($client);
         $em->flush();

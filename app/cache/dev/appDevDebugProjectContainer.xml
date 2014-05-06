@@ -169,7 +169,9 @@
     <parameter key="validator.mapping.loader.xml_files_loader.mapping_files" type="collection">
       <parameter>/home/koredalin/public_html/sc242/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/config/validation.xml</parameter>
     </parameter>
-    <parameter key="validator.mapping.loader.yaml_files_loader.mapping_files" type="collection"/>
+    <parameter key="validator.mapping.loader.yaml_files_loader.mapping_files" type="collection">
+      <parameter>/home/koredalin/public_html/sc242/src/Acme/ShopBundle/Resources/config/validation.yml</parameter>
+    </parameter>
     <parameter key="validator.expression.class">Symfony\Component\Validator\Constraints\ExpressionValidator</parameter>
     <parameter key="validator.translation_domain">validators</parameter>
     <parameter key="fragment.listener.class">Symfony\Component\HttpKernel\EventListener\FragmentListener</parameter>
@@ -1404,7 +1406,9 @@
             </argument>
             <argument type="service">
               <service class="Symfony\Component\Validator\Mapping\Loader\YamlFilesLoader" public="false">
-                <argument type="collection"/>
+                <argument type="collection">
+                  <argument>/home/koredalin/public_html/sc242/src/Acme/ShopBundle/Resources/config/validation.yml</argument>
+                </argument>
               </service>
             </argument>
           </argument>
@@ -2404,7 +2408,6 @@
                     <service class="Doctrine\ORM\Mapping\Driver\SimplifiedYamlDriver" public="false">
                       <argument type="collection">
                         <argument key="/home/koredalin/public_html/sc242/src/Acme/ShopBundle/Resources/config/doctrine">Acme\ShopBundle\Entity</argument>
-                        <argument key="/home/koredalin/public_html/sc242/src/Acme/DemoBundle/Resources/config/doctrine">Acme\DemoBundle\Entity</argument>
                       </argument>
                       <call method="setGlobalBasename">
                         <argument>mapping</argument>
@@ -2415,14 +2418,11 @@
                 </call>
                 <call method="addDriver">
                   <argument type="service">
-                    <service class="Doctrine\ORM\Mapping\Driver\SimplifiedYamlDriver" public="false">
+                    <service class="Doctrine\ORM\Mapping\Driver\AnnotationDriver" public="false">
+                      <argument type="service" id="annotation_reader"/>
                       <argument type="collection">
-                        <argument key="/home/koredalin/public_html/sc242/src/Acme/ShopBundle/Resources/config/doctrine">Acme\ShopBundle\Entity</argument>
-                        <argument key="/home/koredalin/public_html/sc242/src/Acme/DemoBundle/Resources/config/doctrine">Acme\DemoBundle\Entity</argument>
+                        <argument>/home/koredalin/public_html/sc242/src/Acme/DemoBundle/Entity</argument>
                       </argument>
-                      <call method="setGlobalBasename">
-                        <argument>mapping</argument>
-                      </call>
                     </service>
                   </argument>
                   <argument>Acme\DemoBundle\Entity</argument>

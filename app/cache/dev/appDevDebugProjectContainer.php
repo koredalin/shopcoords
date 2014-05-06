@@ -617,12 +617,12 @@ class appDevDebugProjectContainer extends Container
         $c = new \Doctrine\Common\Cache\ArrayCache();
         $c->setNamespace('sf2orm_default_1ffb089877a96356473954c41d40b7714ab47e1340b18dd7fe83b82babc892f0');
 
-        $d = new \Doctrine\ORM\Mapping\Driver\SimplifiedYamlDriver(array('/home/koredalin/public_html/sc242/src/Acme/ShopBundle/Resources/config/doctrine' => 'Acme\\ShopBundle\\Entity', '/home/koredalin/public_html/sc242/src/Acme/DemoBundle/Resources/config/doctrine' => 'Acme\\DemoBundle\\Entity'));
+        $d = new \Doctrine\ORM\Mapping\Driver\SimplifiedYamlDriver(array('/home/koredalin/public_html/sc242/src/Acme/ShopBundle/Resources/config/doctrine' => 'Acme\\ShopBundle\\Entity'));
         $d->setGlobalBasename('mapping');
 
         $e = new \Doctrine\ORM\Mapping\Driver\DriverChain();
         $e->addDriver($d, 'Acme\\ShopBundle\\Entity');
-        $e->addDriver($d, 'Acme\\DemoBundle\\Entity');
+        $e->addDriver(new \Doctrine\ORM\Mapping\Driver\AnnotationDriver($this->get('annotation_reader'), array(0 => '/home/koredalin/public_html/sc242/src/Acme/DemoBundle/Entity')), 'Acme\\DemoBundle\\Entity');
 
         $f = new \Doctrine\ORM\Configuration();
         $f->setEntityNamespaces(array('AcmeShopBundle' => 'Acme\\ShopBundle\\Entity', 'AcmeDemoBundle' => 'Acme\\DemoBundle\\Entity'));
@@ -3377,7 +3377,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getValidator_Mapping_ClassMetadataFactoryService()
     {
-        return $this->services['validator.mapping.class_metadata_factory'] = new \Symfony\Component\Validator\Mapping\ClassMetadataFactory(new \Symfony\Component\Validator\Mapping\Loader\LoaderChain(array(0 => new \Symfony\Component\Validator\Mapping\Loader\AnnotationLoader($this->get('annotation_reader')), 1 => new \Symfony\Component\Validator\Mapping\Loader\StaticMethodLoader(), 2 => new \Symfony\Component\Validator\Mapping\Loader\XmlFilesLoader(array(0 => '/home/koredalin/public_html/sc242/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/config/validation.xml')), 3 => new \Symfony\Component\Validator\Mapping\Loader\YamlFilesLoader(array()))), NULL);
+        return $this->services['validator.mapping.class_metadata_factory'] = new \Symfony\Component\Validator\Mapping\ClassMetadataFactory(new \Symfony\Component\Validator\Mapping\Loader\LoaderChain(array(0 => new \Symfony\Component\Validator\Mapping\Loader\AnnotationLoader($this->get('annotation_reader')), 1 => new \Symfony\Component\Validator\Mapping\Loader\StaticMethodLoader(), 2 => new \Symfony\Component\Validator\Mapping\Loader\XmlFilesLoader(array(0 => '/home/koredalin/public_html/sc242/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/config/validation.xml')), 3 => new \Symfony\Component\Validator\Mapping\Loader\YamlFilesLoader(array(0 => '/home/koredalin/public_html/sc242/src/Acme/ShopBundle/Resources/config/validation.yml')))), NULL);
     }
 
     /**
@@ -3606,7 +3606,7 @@ class appDevDebugProjectContainer extends Container
                 0 => '/home/koredalin/public_html/sc242/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/config/validation.xml',
             ),
             'validator.mapping.loader.yaml_files_loader.mapping_files' => array(
-
+                0 => '/home/koredalin/public_html/sc242/src/Acme/ShopBundle/Resources/config/validation.yml',
             ),
             'validator.expression.class' => 'Symfony\\Component\\Validator\\Constraints\\ExpressionValidator',
             'validator.translation_domain' => 'validators',

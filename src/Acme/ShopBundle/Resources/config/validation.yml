@@ -1,0 +1,10 @@
+# src/Acme/ShopBundle/Resources/config/validation.yml
+Acme\ShopBundle\Controller\ShopController:
+    properties:
+        longitude, latitude:
+            - NotBlank: ~
+            - Range: ~
+        radius:
+            - NotBlank: ~
+            - Range: ~
+            - GreaterThan: 0
