@@ -562,3 +562,9 @@ c5737e,127.0.0.1,GET,http://localhost/sc242/web/shop/insertClient,1399376504,
 afd9ef,127.0.0.1,GET,http://localhost/sc242/web/shop/insertClient,1399376550,
 a58f62,127.0.0.1,GET,http://localhost/sc242/web/shop/insertClient,1399376591,
 137ac2,127.0.0.1,GET,http://localhost/sc242/web/shop/loadClientById/2,1399378554,
+1d74fe,127.0.0.1,GET,http://localhost/sc242/web/shop,1399402440,
+514f96,127.0.0.1,GET,http://localhost/sc242/web/css/shop.css,1399402441,e8bc0f
+e8bc0f,127.0.0.1,GET,http://localhost/sc242/web/css/shop.css,1399402441,
+154845,127.0.0.1,GET,http://localhost/sc242/web/shop,1399403395,
+f411ee,127.0.0.1,GET,http://localhost/sc242/web/css/shop.css,1399403395,6d6b35
+6d6b35,127.0.0.1,GET,http://localhost/sc242/web/css/shop.css,1399403395,

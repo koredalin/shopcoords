@@ -21,9 +21,9 @@ class ShopController extends ShopMainController {
         $this->data['client_id'] = 8;
         $this->data['my_name'] = 'Hristo';
 
-
+        $result=array('result' => 16);
         // create a JSON-response with a 200 status code
-        $response = new Response(json_encode($this->data));
+        $response = new Response(json_encode($result));
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
