@@ -2366,6 +2366,7 @@
           <call method="setEntityNamespaces">
             <argument type="collection">
               <argument key="AcmeShopBundle">Acme\ShopBundle\Entity</argument>
+              <argument key="AcmeDemoBundle">Acme\DemoBundle\Entity</argument>
             </argument>
           </call>
           <call method="setMetadataCacheImpl">
@@ -2403,6 +2404,7 @@
                     <service class="Doctrine\ORM\Mapping\Driver\SimplifiedYamlDriver" public="false">
                       <argument type="collection">
                         <argument key="/home/koredalin/public_html/sc242/src/Acme/ShopBundle/Resources/config/doctrine">Acme\ShopBundle\Entity</argument>
+                        <argument key="/home/koredalin/public_html/sc242/src/Acme/DemoBundle/Resources/config/doctrine">Acme\DemoBundle\Entity</argument>
                       </argument>
                       <call method="setGlobalBasename">
                         <argument>mapping</argument>
@@ -2410,6 +2412,20 @@
                     </service>
                   </argument>
                   <argument>Acme\ShopBundle\Entity</argument>
+                </call>
+                <call method="addDriver">
+                  <argument type="service">
+                    <service class="Doctrine\ORM\Mapping\Driver\SimplifiedYamlDriver" public="false">
+                      <argument type="collection">
+                        <argument key="/home/koredalin/public_html/sc242/src/Acme/ShopBundle/Resources/config/doctrine">Acme\ShopBundle\Entity</argument>
+                        <argument key="/home/koredalin/public_html/sc242/src/Acme/DemoBundle/Resources/config/doctrine">Acme\DemoBundle\Entity</argument>
+                      </argument>
+                      <call method="setGlobalBasename">
+                        <argument>mapping</argument>
+                      </call>
+                    </service>
+                  </argument>
+                  <argument>Acme\DemoBundle\Entity</argument>
                 </call>
               </service>
             </argument>

@@ -151,6 +151,16 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                 return array (  '_controller' => 'Acme\\ShopBundle\\Controller\\ShopController::indexAction',  '_route' => 'acme_shop_homepage',);
             }
 
+            // acme_shop_insert_client
+            if ($pathinfo === '/shop/insertClient') {
+                return array (  '_controller' => 'Acme\\ShopBundle\\Controller\\ShopController::insertClientAction',  '_route' => 'acme_shop_insert_client',);
+            }
+
+            // load_client_by_id
+            if (0 === strpos($pathinfo, '/shop/loadClientById') && preg_match('#^/shop/loadClientById/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'load_client_by_id')), array (  '_controller' => 'Acme\\ShopBundle\\Controller\\ShopController::loadClientByIdAction',));
+            }
+
         }
 
         // acme_hello_homepage

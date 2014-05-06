@@ -617,14 +617,15 @@ class appDevDebugProjectContainer extends Container
         $c = new \Doctrine\Common\Cache\ArrayCache();
         $c->setNamespace('sf2orm_default_1ffb089877a96356473954c41d40b7714ab47e1340b18dd7fe83b82babc892f0');
 
-        $d = new \Doctrine\ORM\Mapping\Driver\SimplifiedYamlDriver(array('/home/koredalin/public_html/sc242/src/Acme/ShopBundle/Resources/config/doctrine' => 'Acme\\ShopBundle\\Entity'));
+        $d = new \Doctrine\ORM\Mapping\Driver\SimplifiedYamlDriver(array('/home/koredalin/public_html/sc242/src/Acme/ShopBundle/Resources/config/doctrine' => 'Acme\\ShopBundle\\Entity', '/home/koredalin/public_html/sc242/src/Acme/DemoBundle/Resources/config/doctrine' => 'Acme\\DemoBundle\\Entity'));
         $d->setGlobalBasename('mapping');
 
         $e = new \Doctrine\ORM\Mapping\Driver\DriverChain();
         $e->addDriver($d, 'Acme\\ShopBundle\\Entity');
+        $e->addDriver($d, 'Acme\\DemoBundle\\Entity');
 
         $f = new \Doctrine\ORM\Configuration();
-        $f->setEntityNamespaces(array('AcmeShopBundle' => 'Acme\\ShopBundle\\Entity'));
+        $f->setEntityNamespaces(array('AcmeShopBundle' => 'Acme\\ShopBundle\\Entity', 'AcmeDemoBundle' => 'Acme\\DemoBundle\\Entity'));
         $f->setMetadataCacheImpl($a);
         $f->setQueryCacheImpl($b);
         $f->setResultCacheImpl($c);

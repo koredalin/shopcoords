@@ -549,3 +549,16 @@ b175d4,127.0.0.1,GET,http://localhost/sc242/web/css/shop.css,1399358101,
 c225c1,127.0.0.1,GET,http://localhost/sc242/web/shop,1399365734,
 d74a54,127.0.0.1,GET,http://localhost/sc242/web/css/shop.css,1399365735,9cdfbf
 9cdfbf,127.0.0.1,GET,http://localhost/sc242/web/css/shop.css,1399365735,
+ac7665,127.0.0.1,GET,http://localhost/sc242/web/shop,1399366555,
+e82ebb,127.0.0.1,GET,http://localhost/sc242/web/css/shop.css,1399366555,24756b
+24756b,127.0.0.1,GET,http://localhost/sc242/web/css/shop.css,1399366555,
+eb2b1a,127.0.0.1,GET,http://localhost/sc242/web/shop/insertClient,1399376281,bb8752
+bb8752,127.0.0.1,GET,http://localhost/sc242/web/shop/insertClient,1399376281,
+d12771,127.0.0.1,GET,http://localhost/sc242/web/shop/insertClient,1399376398,1c2867
+1c2867,127.0.0.1,GET,http://localhost/sc242/web/shop/insertClient,1399376398,
+f34ae3,127.0.0.1,GET,http://localhost/sc242/web/shop/insertClient,1399376419,
+61a386,127.0.0.1,GET,http://localhost/sc242/web/shop/insertClient,1399376456,
+c5737e,127.0.0.1,GET,http://localhost/sc242/web/shop/insertClient,1399376504,
+afd9ef,127.0.0.1,GET,http://localhost/sc242/web/shop/insertClient,1399376550,
+a58f62,127.0.0.1,GET,http://localhost/sc242/web/shop/insertClient,1399376591,
+137ac2,127.0.0.1,GET,http://localhost/sc242/web/shop/loadClientById/2,1399378554,

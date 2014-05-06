@@ -26,3 +26,13 @@ acme_shop_calc_shops:
 acme_shop_homepage:
     pattern:  /shop
     defaults: { _controller: AcmeShopBundle:Shop:index }
+    
+acme_shop_insert_client:
+    pattern:  /shop/insertClient
+    defaults: { _controller: AcmeShopBundle:Shop:insertClient }
+    
+load_client_by_id:
+    pattern: /shop/loadClientById/{id}
+    defaults: { _controller: AcmeShopBundle:Shop:loadClientById }
+    requirements:
+        page: \d+
