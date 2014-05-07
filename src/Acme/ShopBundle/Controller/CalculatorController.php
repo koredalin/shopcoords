@@ -37,19 +37,15 @@ class CalculatorController extends ShopMainController {
         
         
         $client_name=$this->get('acme_shop.client')->loadClientByIdAction($valid_data['client_id']);
-        var_dump($client_name);
-        exit;
+        $shops = $this->get('acme_shop.shop')->getWholeTable();
         
-        
-        
-        $this->data['calculator_response']=$calculator->calculateShopsByCoordinates($request);
+        $this->data['calculator_response']=$calculator->findShopsPhp($valid_data, $shops);
 
         // create a JSON-response with a 200 status code
         $response = new Response(json_encode($this->data));
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
-        // return $this->render('AcmeShopBundle:Shop:index.html.twig', $this->data); // 
     }
 
     public function insertClientAction() {

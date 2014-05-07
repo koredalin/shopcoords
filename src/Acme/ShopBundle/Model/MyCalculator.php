@@ -19,16 +19,42 @@ class MyCalculator{
     public function __construct() {
         $this->controller= new Controller();
     }
-
-    public function calculateShopsByCoordinates(Request $request) {
+    
+    public function findShopsPhp(Array $valid_data, $shops) {
+        $client_longitude=$valid_data['longitude'];
+        $client_latitude=$valid_data['latitude'];
+        $radius=$valid_data['radius'];
+        $in_range=array();
+        foreach ($shops as $key => $shop) {
+            $long_distance=abs($client_longitude-$shop['longitude']);
+            $lati_distance=abs($client_latitude-$shop['latitude']);
+            $dist= sqrt($long_distance*$long_distance+$lati_distance*$lati_distance);
+            if ($dist < $radius) {
+                $in_range[] = $shop;
+            }
+        }
         
         
-        //$request_data['client']= $this->loadClientByIdAction($request_data['client_id']);
-        
-        $client_name=$this->get('acme_shop.client')->loadClientByIdAction($request_data['client_id']);
-        
-        var_dump($client_name);
+        var_dump($in_range);
         exit;
+    }
+
+    public function findShopsMysql(Array $valid_data, $shops) {
+        $client_longitude=$valid_data['longitude'];
+        $client_latitude=$valid_data['latitude'];
+        $radius=$valid_data['radius'];
+        $in_range=array();
+        foreach ($shops as $key => $shop) {
+            $long_distance=abs($client_longitude-$shop['longitude']);
+            $lati_distance=abs($client_latitude-$shop['latitude']);
+            $dist= round(sqrt($long_distance*$long_distance+$lati_distance*$lati_distance), 2);
+            $shop['distance'] = $dist;
+            if ($dist < $radius) {
+                $in_range[] = $shop;
+            }
+        }
+        
+        return $in_range;
     }
 
     public function validateEntries(Request $request) {
@@ -54,3 +80,13 @@ class MyCalculator{
     
     
 }
+
+
+
+
+/*
+//$request_data['client']= $this->loadClientByIdAction($request_data['client_id']);
+        
+        $client_name=$this->get('acme_shop.client')->loadClientByIdAction($request_data['client_id']);
+ 
+/**/

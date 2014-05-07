@@ -29,6 +29,27 @@ class ShopController extends Controller
             'entities' => $entities,
         ));
     }
+    
+    public function getWholeTable() {
+        $em = $this->getDoctrine()->getManager();
+        $entities = $em->getRepository('AcmeShopBundle:Shop')->findAll();
+        $shops=array();
+        foreach ($entities as $key => $shop) {
+            $shops[$key]['shop_id'] = $shop->getId();
+            $shops[$key]['name'] = $shop->getName();
+            $shops[$key]['contacts'] = $shop->getContacts();
+            $shops[$key]['description'] = $shop->getDescription();
+            $shops[$key]['longitude'] = $shop->getLongitude();
+            $shops[$key]['latitude'] = $shop->getLatitude();
+        }
+        return $shops;
+    }
+    
+    
+    
+    
+    
+    
     /**
      * Creates a new Shop entity.
      *

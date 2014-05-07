@@ -34,6 +34,7 @@ class appDevDebugProjectContainer extends Container
         $this->methodMap = array(
             'acme.demo.listener' => 'getAcme_Demo_ListenerService',
             'acme_shop.client' => 'getAcmeShop_ClientService',
+            'acme_shop.shop' => 'getAcmeShop_ShopService',
             'annotation_reader' => 'getAnnotationReaderService',
             'assetic.asset_factory' => 'getAssetic_AssetFactoryService',
             'assetic.asset_manager' => 'getAssetic_AssetManagerService',
@@ -282,6 +283,23 @@ class appDevDebugProjectContainer extends Container
     protected function getAcmeShop_ClientService()
     {
         $this->services['acme_shop.client'] = $instance = new \Acme\ShopBundle\Controller\ClientController();
+
+        $instance->setContainer($this);
+
+        return $instance;
+    }
+
+    /**
+     * Gets the 'acme_shop.shop' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return Acme\ShopBundle\Controller\ShopController A Acme\ShopBundle\Controller\ShopController instance.
+     */
+    protected function getAcmeShop_ShopService()
+    {
+        $this->services['acme_shop.shop'] = $instance = new \Acme\ShopBundle\Controller\ShopController();
 
         $instance->setContainer($this);
 
