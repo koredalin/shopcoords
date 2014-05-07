@@ -30,7 +30,7 @@ abstract class FileDumper implements DumperInterface
     public function dump(MessageCatalogue $messages, $options = array())
     {
         if (!array_key_exists('path', $options)) {
-            throw new \InvalidArgumentException('The file dumper needs a path option.');
+            throw new \InvalidArgumentException('The file dumper need a path options.');
         }
 
         // save a file for each domain

@@ -13,7 +13,6 @@ namespace Symfony\Component\Process;
 
 use Symfony\Component\Process\Exception\InvalidArgumentException;
 use Symfony\Component\Process\Exception\LogicException;
-use Symfony\Component\Process\Exception\ProcessTimedOutException;
 use Symfony\Component\Process\Exception\RuntimeException;
 
 /**
@@ -46,9 +45,7 @@ class Process
     private $env;
     private $stdin;
     private $starttime;
-    private $lastOutputTime;
     private $timeout;
-    private $idleTimeout;
     private $options;
     private $exitcode;
     private $fallbackExitcode;
@@ -181,7 +178,7 @@ class Process
      * The STDOUT and STDERR are also available after the process is finished
      * via the getOutput() and getErrorOutput() methods.
      *
-     * @param callable|null $callback A PHP callback to run whenever there is some
+     * @param callback|null $callback A PHP callback to run whenever there is some
      *                                output available on STDOUT or STDERR
      *
      * @return int     The exit status code
@@ -213,10 +210,8 @@ class Process
      * with true as a second parameter then the callback will get all data occurred
      * in (and since) the start call.
      *
-     * @param callable|null $callback A PHP callback to run whenever there is some
+     * @param callback|null $callback A PHP callback to run whenever there is some
      *                                output available on STDOUT or STDERR
-     *
-     * @return Process The process itself
      *
      * @throws RuntimeException When process can't be launched
      * @throws RuntimeException When process is already running
@@ -228,7 +223,7 @@ class Process
         }
 
         $this->resetProcessData();
-        $this->starttime = $this->lastOutputTime = microtime(true);
+        $this->starttime = microtime(true);
         $this->callback = $this->buildCallback($callback);
         $descriptors = $this->getDescriptors();
 
@@ -269,8 +264,8 @@ class Process
      *
      * Be warned that the process is cloned before being started.
      *
-     * @param callable|null $callback A PHP callback to run whenever there is some
-     *                                output available on STDOUT or STDERR
+     * @param callable $callback A PHP callback to run whenever there is some
+     *                           output available on STDOUT or STDERR
      *
      * @return Process The new process
      *
@@ -298,7 +293,7 @@ class Process
      * from the output in real-time while writing the standard input to the process.
      * It allows to have feedback from the independent process during execution.
      *
-     * @param callable|null $callback A valid PHP callback
+     * @param callback|null $callback A valid PHP callback
      *
      * @return int     The exitcode of the process
      *
@@ -410,19 +405,6 @@ class Process
     }
 
     /**
-     * Clears the process output.
-     *
-     * @return Process
-     */
-    public function clearOutput()
-    {
-        $this->stdout = '';
-        $this->incrementalOutputOffset = 0;
-
-        return $this;
-    }
-
-    /**
      * Returns the current error output of the process (STDERR).
      *
      * @return string The process error output
@@ -461,19 +443,6 @@ class Process
         $this->incrementalErrorOutputOffset = strlen($data);
 
         return $latest;
-    }
-
-    /**
-     * Clears the process output.
-     *
-     * @return Process
-     */
-    public function clearErrorOutput()
-    {
-        $this->stderr = '';
-        $this->incrementalErrorOutputOffset = 0;
-
-        return $this;
     }
 
     /**
@@ -723,7 +692,6 @@ class Process
      */
     public function addOutput($line)
     {
-        $this->lastOutputTime = microtime(true);
         $this->stdout .= $line;
     }
 
@@ -734,7 +702,6 @@ class Process
      */
     public function addErrorOutput($line)
     {
-        $this->lastOutputTime = microtime(true);
         $this->stderr .= $line;
     }
 
@@ -763,7 +730,7 @@ class Process
     }
 
     /**
-     * Gets the process timeout (max. runtime).
+     * Gets the process timeout.
      *
      * @return float|null The timeout in seconds or null if it's disabled
      */
@@ -773,17 +740,7 @@ class Process
     }
 
     /**
-     * Gets the process idle timeout (max. time since last output).
-     *
-     * @return float|null The timeout in seconds or null if it's disabled
-     */
-    public function getIdleTimeout()
-    {
-        return $this->idleTimeout;
-    }
-
-    /**
-     * Sets the process timeout (max. runtime).
+     * Sets the process timeout.
      *
      * To disable the timeout, set this value to null.
      *
@@ -795,25 +752,15 @@ class Process
      */
     public function setTimeout($timeout)
     {
-        $this->timeout = $this->validateTimeout($timeout);
+        $timeout = (float) $timeout;
 
-        return $this;
-    }
+        if (0.0 === $timeout) {
+            $timeout = null;
+        } elseif ($timeout < 0) {
+            throw new InvalidArgumentException('The timeout value must be a valid positive integer or float number.');
+        }
 
-    /**
-     * Sets the process idle timeout (max. time since last output).
-     *
-     * To disable the timeout, set this value to null.
-     *
-     * @param int|float|null     $timeout The timeout in seconds
-     *
-     * @return self The current Process instance.
-     *
-     * @throws InvalidArgumentException if the timeout is negative
-     */
-    public function setIdleTimeout($timeout)
-    {
-        $this->idleTimeout = $this->validateTimeout($timeout);
+        $this->timeout = $timeout;
 
         return $this;
     }
@@ -1030,7 +977,7 @@ class Process
      * In case you run a background process (with the start method), you should
      * trigger this method regularly to ensure the process timeout
      *
-     * @throws ProcessTimedOutException In case the timeout was reached
+     * @throws RuntimeException In case the timeout was reached
      */
     public function checkTimeout()
     {
@@ -1041,13 +988,7 @@ class Process
         if (null !== $this->timeout && $this->timeout < microtime(true) - $this->starttime) {
             $this->stop(0);
 
-            throw new ProcessTimedOutException($this, ProcessTimedOutException::TYPE_GENERAL);
-        }
-
-        if (null !== $this->idleTimeout && $this->idleTimeout < microtime(true) - $this->lastOutputTime) {
-            $this->stop(0);
-
-            throw new ProcessTimedOutException($this, ProcessTimedOutException::TYPE_IDLE);
+            throw new RuntimeException('The process timed-out.');
         }
     }
 
@@ -1077,9 +1018,9 @@ class Process
      * The callbacks adds all occurred output to the specific buffer and calls
      * the user callback (if present) with the received output.
      *
-     * @param callable|null $callback The user defined PHP callback
+     * @param callback|null $callback The user defined PHP callback
      *
-     * @return callable A PHP callable
+     * @return callback A PHP callable
      */
     protected function buildCallback($callback)
     {
@@ -1141,26 +1082,6 @@ class Process
         phpinfo(INFO_GENERAL);
 
         return self::$sigchild = false !== strpos(ob_get_clean(), '--enable-sigchild');
-    }
-
-    /**
-     * Validates and returns the filtered timeout.
-     *
-     * @param int|float|null     $timeout
-     *
-     * @return float|null
-     */
-    private function validateTimeout($timeout)
-    {
-        $timeout = (float) $timeout;
-
-        if (0.0 === $timeout) {
-            $timeout = null;
-        } elseif ($timeout < 0) {
-            throw new InvalidArgumentException('The timeout value must be a valid positive integer or float number.');
-        }
-
-        return $timeout;
     }
 
     /**

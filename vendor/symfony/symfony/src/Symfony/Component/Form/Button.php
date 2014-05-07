@@ -317,7 +317,11 @@ class Button implements \IteratorAggregate, FormInterface
      */
     public function isDisabled()
     {
-        return $this->config->getDisabled();
+        if (null === $this->parent || !$this->parent->isDisabled()) {
+            return $this->config->getDisabled();
+        }
+
+        return true;
     }
 
     /**
@@ -408,15 +412,7 @@ class Button implements \IteratorAggregate, FormInterface
             $parent = $this->parent->createView();
         }
 
-        $type = $this->config->getType();
-        $options = $this->config->getOptions();
-
-        $view = $type->createView($this, $parent);
-
-        $type->buildView($view, $this, $options);
-        $type->finishView($view, $this, $options);
-
-        return $view;
+        return $this->config->getType()->createView($this, $parent);
     }
 
     /**

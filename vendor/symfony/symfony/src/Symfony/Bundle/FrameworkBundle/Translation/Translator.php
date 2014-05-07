@@ -24,10 +24,7 @@ use Symfony\Component\Config\ConfigCache;
 class Translator extends BaseTranslator
 {
     protected $container;
-    protected $options = array(
-        'cache_dir' => null,
-        'debug'     => false,
-    );
+    protected $options;
     protected $loaderIds;
 
     /**
@@ -49,6 +46,11 @@ class Translator extends BaseTranslator
     {
         $this->container = $container;
         $this->loaderIds = $loaderIds;
+
+        $this->options = array(
+            'cache_dir' => null,
+            'debug'     => false,
+        );
 
         // check option names
         if ($diff = array_diff(array_keys($options), array_keys($this->options))) {

@@ -1,3 +1,0 @@
-acme_shops_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: AcmeShopsBundle:Default:index }

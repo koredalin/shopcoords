@@ -1,11 +1,6 @@
 CHANGELOG
 =========
 
-2.4.0
------
-
- * added stopwatch tag to time templates with the WebProfilerBundle
-
 2.3.0
 -----
 

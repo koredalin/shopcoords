@@ -5,21 +5,25 @@
 <div id="main_container">
     <div id="container">
         <h2>Проверка местонахождение на магазини</h2>
-                <div id="input_request_data">
-                    <pre>
+        <div id="input_request_data">
+            <pre>
             Въвеждане на координати
             <input type="number" id="longitude" placeholder="Дължина">
             <input type="number" id="latitude" placeholder="Ширина">
             <input type="number" id="radius" placeholder="Радиус">
             <input type="number" id="client_id" placeholder="Клиент ID">
+            <div class="font-size-medium inl-bl">Търсете с:
+            </div>
+            <input type="radio" name="search_option" id="search_with_php" value="search_with_php" checked>PHP
+            <input type="radio" name="search_option" id="search_with_mysql" value="search_with_mysql">MySQL
             <button type="button" id="calc_btn">Проверка</button>
-                    </pre>
-                </div>
-                <div id="show_result">
+            </pre>
+        </div>
+        <div id="show_result">
 
-                </div>
-                <input type="hidden" id="calc_shops_path" 
-                       value="{{ url('acme_shop_search_shops') }}">
+        </div>
+        <input type="hidden" id="calc_shops_path" 
+               value="{{ url('acme_shop_search_shops') }}">
     </div>
 </div>
 

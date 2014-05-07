@@ -12,7 +12,6 @@
 namespace Symfony\Component\DependencyInjection;
 
 use Symfony\Component\Config\Util\XmlUtils;
-use Symfony\Component\ExpressionLanguage\Expression;
 
 /**
  * SimpleXMLElement class.
@@ -77,9 +76,6 @@ class SimpleXMLElement extends \SimpleXMLElement
                     }
 
                     $arguments[$key] = new Reference((string) $arg['id'], $invalidBehavior, $strict);
-                    break;
-                case 'expression':
-                    $arguments[$key] = new Expression((string) $arg);
                     break;
                 case 'collection':
                     $arguments[$key] = $arg->getArgumentsAsPhp($name, false);

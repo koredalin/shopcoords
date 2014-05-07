@@ -1008,23 +1008,7 @@ class Form implements \IteratorAggregate, FormInterface
             $parent = $this->parent->createView();
         }
 
-        $type = $this->config->getType();
-        $options = $this->config->getOptions();
-
-        // The methods createView(), buildView() and finishView() are called
-        // explicitly here in order to be able to override either of them
-        // in a custom resolved form type.
-        $view = $type->createView($this, $parent);
-
-        $type->buildView($view, $this, $options);
-
-        foreach ($this->children as $name => $child) {
-            $view->children[$name] = $child->createView($view);
-        }
-
-        $type->finishView($view, $this, $options);
-
-        return $view;
+        return $this->config->getType()->createView($this, $parent);
     }
 
     /**

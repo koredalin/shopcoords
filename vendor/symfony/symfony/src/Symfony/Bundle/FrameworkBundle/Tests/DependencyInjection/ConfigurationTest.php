@@ -93,15 +93,9 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
             'trusted_proxies'     => array(),
             'ide'                 => null,
             'default_locale'      => 'en',
-            'form'                => array(
-                'enabled' => false,
-                'csrf_protection' => array(
-                    'enabled' => null, // defaults to csrf_protection.enabled
-                    'field_name' => null,
-                ),
-            ),
+            'form'                => array('enabled' => false),
             'csrf_protection'     => array(
-                'enabled'    => false,
+                'enabled'    => true,
                 'field_name' => '_token',
             ),
             'esi'                 => array('enabled' => false),

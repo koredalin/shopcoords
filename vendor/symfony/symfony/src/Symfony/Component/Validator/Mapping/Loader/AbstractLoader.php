@@ -20,7 +20,7 @@ abstract class AbstractLoader implements LoaderInterface
      * Contains all known namespaces indexed by their prefix
      * @var array
      */
-    protected $namespaces = array();
+    protected $namespaces;
 
     /**
      * Adds a namespace alias.

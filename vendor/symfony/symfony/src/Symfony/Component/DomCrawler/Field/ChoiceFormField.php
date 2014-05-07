@@ -34,10 +34,6 @@ class ChoiceFormField extends FormField
      * @var array
      */
     private $options;
-    /**
-     * @var bool
-     */
-    private $validationDisabled = false;
 
     /**
      * Returns true if the field should be included in the submitted values.
@@ -284,10 +280,6 @@ class ChoiceFormField extends FormField
      */
     public function containsOption($optionValue, $options)
     {
-        if ($this->validationDisabled) {
-            return true;
-        }
-
         foreach ($options as $option) {
             if ($option['value'] == $optionValue) {
                 return true;
@@ -311,17 +303,5 @@ class ChoiceFormField extends FormField
         }
 
         return $values;
-    }
-
-    /**
-     * Disables the internal validation of the field.
-     *
-     * @return self
-     */
-    public function disableValidation()
-    {
-        $this->validationDisabled = true;
-
-        return $this;
     }
 }

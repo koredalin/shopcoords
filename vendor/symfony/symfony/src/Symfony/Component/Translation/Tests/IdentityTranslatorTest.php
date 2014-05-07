@@ -12,6 +12,7 @@
 namespace Symfony\Component\Translation\Tests;
 
 use Symfony\Component\Translation\IdentityTranslator;
+use Symfony\Component\Translation\MessageSelector;
 
 class IdentityTranslatorTest extends \PHPUnit_Framework_TestCase
 {
@@ -20,7 +21,7 @@ class IdentityTranslatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testTrans($expected, $id, $parameters)
     {
-        $translator = new IdentityTranslator();
+        $translator = new IdentityTranslator(new MessageSelector());
 
         $this->assertEquals($expected, $translator->trans($id, $parameters));
     }
@@ -30,7 +31,7 @@ class IdentityTranslatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testTransChoiceWithExplicitLocale($expected, $id, $number, $parameters)
     {
-        $translator = new IdentityTranslator();
+        $translator = new IdentityTranslator(new MessageSelector());
         $translator->setLocale('en');
 
         $this->assertEquals($expected, $translator->transChoice($id, $number, $parameters));
@@ -43,14 +44,14 @@ class IdentityTranslatorTest extends \PHPUnit_Framework_TestCase
     {
         \Locale::setDefault('en');
 
-        $translator = new IdentityTranslator();
+        $translator = new IdentityTranslator(new MessageSelector());
 
         $this->assertEquals($expected, $translator->transChoice($id, $number, $parameters));
     }
 
     public function testGetSetLocale()
     {
-        $translator = new IdentityTranslator();
+        $translator = new IdentityTranslator(new MessageSelector());
         $translator->setLocale('en');
 
         $this->assertEquals('en', $translator->getLocale());
@@ -58,7 +59,7 @@ class IdentityTranslatorTest extends \PHPUnit_Framework_TestCase
 
     public function testGetLocaleReturnsDefaultLocaleIfNotSet()
     {
-        $translator = new IdentityTranslator();
+        $translator = new IdentityTranslator(new MessageSelector());
 
         \Locale::setDefault('en');
         $this->assertEquals('en', $translator->getLocale());

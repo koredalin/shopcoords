@@ -19,7 +19,7 @@ use Symfony\Component\Console\Formatter\OutputFormatterStyle;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class DialogHelper extends InputAwareHelper
+class DialogHelper extends Helper
 {
     private $inputStream;
     private static $shell;
@@ -98,10 +98,6 @@ class DialogHelper extends InputAwareHelper
      */
     public function ask(OutputInterface $output, $question, $default = null, array $autocomplete = null)
     {
-        if ($this->input && !$this->input->isInteractive()) {
-            return $default;
-        }
-
         $output->write($question);
 
         $inputStream = $this->inputStream ?: STDIN;

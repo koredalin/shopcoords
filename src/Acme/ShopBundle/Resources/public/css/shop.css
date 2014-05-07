@@ -14,4 +14,7 @@ html, body {width: 100%; background-color: #777}
     background-color: #f99;
 }
 
-p {font-size: xx-large;}
+p {font-size: 3em}
+.font-size-medium {font-size: large;}
+
+.inl-bl {display: inline-block;}

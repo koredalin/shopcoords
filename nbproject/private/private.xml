@@ -3,8 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/koredalin/public_html/sc242/src/Acme/ShopBundle/Entity/Client.php</file>
-            <file>file:/home/koredalin/public_html/sc242/src/Acme/ShopBundle/Entity/Shop.php</file>
+            <file>file:/home/koredalin/public_html/sc231/src/Acme/ShopBundle/Resources/public/css/shop.css</file>
+            <file>file:/home/koredalin/public_html/sc231/src/Acme/ShopBundle/Model/MyCalculator.php</file>
+            <file>file:/home/koredalin/public_html/sc231/src/Acme/ShopBundle/Controller/CalculatorController.php</file>
+            <file>file:/home/koredalin/public_html/sc231/src/Acme/ShopBundle/Resources/public/js/shop.js</file>
+            <file>file:/home/koredalin/public_html/sc231/app/config/config.yml</file>
+            <file>file:/home/koredalin/public_html/sc231/app/config/parameters.yml</file>
+            <file>file:/home/koredalin/public_html/sc231/src/Acme/ShopBundle/Resources/views/Calculator/index.html.twig</file>
         </group>
     </open-files>
 </project-private>

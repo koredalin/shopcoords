@@ -1,13 +1,5 @@
 acme_shops:
-    resource: "@AcmeShopsBundle/Resources/config/routing.yml"
-    prefix:   /
-
-acme_shop:
     resource: "@AcmeShopBundle/Resources/config/routing.yml"
-    prefix:   /
-
-acme_hello:
-    resource: "@AcmeHelloBundle/Resources/config/routing.yml"
     prefix:   /
 
 _assetic:

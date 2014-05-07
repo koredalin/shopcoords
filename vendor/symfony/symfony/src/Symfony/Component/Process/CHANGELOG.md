@@ -1,11 +1,6 @@
 CHANGELOG
 =========
 
-2.4.0
------
-
- * added the ability to define an idle timeout
-
 2.3.0
 -----
 

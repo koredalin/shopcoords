@@ -24,7 +24,6 @@ use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\Config\Resource\ResourceInterface;
 use Symfony\Component\DependencyInjection\LazyProxy\Instantiator\InstantiatorInterface;
 use Symfony\Component\DependencyInjection\LazyProxy\Instantiator\RealServiceInstantiator;
-use Symfony\Component\ExpressionLanguage\Expression;
 
 /**
  * ContainerBuilder is a DI container that provides an API to easily describe services.
@@ -78,11 +77,6 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
      * @var InstantiatorInterface|null
      */
     private $proxyInstantiator;
-
-    /**
-     * @var ExpressionLanguage|null
-     */
-    private $expressionLanguage;
 
     /**
      * Sets the track resources flag.
@@ -311,7 +305,11 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
      */
     public function addCompilerPass(CompilerPassInterface $pass, $type = PassConfig::TYPE_BEFORE_OPTIMIZATION)
     {
-        $this->getCompiler()->addPass($pass, $type);
+        if (null === $this->compiler) {
+            $this->compiler = new Compiler();
+        }
+
+        $this->compiler->addPass($pass, $type);
 
         $this->addObjectResource($pass);
 
@@ -327,7 +325,11 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
      */
     public function getCompilerPassConfig()
     {
-        return $this->getCompiler()->getPassConfig();
+        if (null === $this->compiler) {
+            $this->compiler = new Compiler();
+        }
+
+        return $this->compiler->getPassConfig();
     }
 
     /**
@@ -460,51 +462,45 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
     {
         $id = strtolower($id);
 
+        if ($service = parent::get($id, ContainerInterface::NULL_ON_INVALID_REFERENCE)) {
+            return $service;
+        }
+
+        if (isset($this->loading[$id])) {
+            throw new LogicException(sprintf('The service "%s" has a circular reference to itself.', $id), 0, $e);
+        }
+
+        if (!$this->hasDefinition($id) && isset($this->aliasDefinitions[$id])) {
+            return $this->get($this->aliasDefinitions[$id]);
+        }
+
         try {
-            return parent::get($id, ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE);
-        } catch (InactiveScopeException $e) {
+            $definition = $this->getDefinition($id);
+        } catch (InvalidArgumentException $e) {
             if (ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE !== $invalidBehavior) {
                 return;
             }
 
             throw $e;
-        } catch (InvalidArgumentException $e) {
-            if (isset($this->loading[$id])) {
-                throw new LogicException(sprintf('The service "%s" has a circular reference to itself.', $id), 0, $e);
-            }
+        }
 
-            if (!$this->hasDefinition($id) && isset($this->aliasDefinitions[$id])) {
-                return $this->get($this->aliasDefinitions[$id]);
-            }
+        $this->loading[$id] = true;
 
-            try {
-                $definition = $this->getDefinition($id);
-            } catch (InvalidArgumentException $e) {
-                if (ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE !== $invalidBehavior) {
-                    return;
-                }
-
-                throw $e;
-            }
-
-            $this->loading[$id] = true;
-
-            try {
-                $service = $this->createService($definition, $id);
-            } catch (\Exception $e) {
-                unset($this->loading[$id]);
-
-                if ($e instanceof InactiveScopeException && self::EXCEPTION_ON_INVALID_REFERENCE !== $invalidBehavior) {
-                    return;
-                }
-
-                throw $e;
-            }
-
+        try {
+            $service = $this->createService($definition, $id);
+        } catch (\Exception $e) {
             unset($this->loading[$id]);
 
-            return $service;
+            if ($e instanceof InactiveScopeException && self::EXCEPTION_ON_INVALID_REFERENCE !== $invalidBehavior) {
+                return;
+            }
+
+            throw $e;
         }
+
+        unset($this->loading[$id]);
+
+        return $service;
     }
 
     /**
@@ -608,15 +604,17 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
      */
     public function compile()
     {
-        $compiler = $this->getCompiler();
+        if (null === $this->compiler) {
+            $this->compiler = new Compiler();
+        }
 
         if ($this->trackResources) {
-            foreach ($compiler->getPassConfig()->getPasses() as $pass) {
+            foreach ($this->compiler->getPassConfig()->getPasses() as $pass) {
                 $this->addObjectResource($pass);
             }
         }
 
-        $compiler->compile($this);
+        $this->compiler->compile($this);
 
         if ($this->trackResources) {
             foreach ($this->definitions as $definition) {
@@ -991,12 +989,11 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
     }
 
     /**
-     * Replaces service references by the real service instance and evaluates expressions.
+     * Replaces service references by the real service instance.
      *
      * @param mixed $value A value
      *
-     * @return mixed The same value with all service references replaced by
-     *               the real service instances and all expressions evaluated
+     * @return mixed The same value with all service references replaced by the real service instances
      */
     public function resolveServices($value)
     {
@@ -1008,8 +1005,6 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
             $value = $this->get((string) $value, $value->getInvalidBehavior());
         } elseif ($value instanceof Definition) {
             $value = $this->createService($value, null);
-        } elseif ($value instanceof Expression) {
-            $value = $this->getExpressionLanguage()->evaluate($value, array('container' => $this));
         }
 
         return $value;
@@ -1159,17 +1154,5 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
                 $this->scopedServices[$scope][$lowerId] = $service;
             }
         }
-    }
-
-    private function getExpressionLanguage()
-    {
-        if (null === $this->expressionLanguage) {
-            if (!class_exists('Symfony\Component\ExpressionLanguage\ExpressionLanguage')) {
-                throw new RuntimeException('Unable to use expressions as the Symfony ExpressionLanguage component is not installed.');
-            }
-            $this->expressionLanguage = new ExpressionLanguage();
-        }
-
-        return $this->expressionLanguage;
     }
 }
