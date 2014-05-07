@@ -1,25 +1,49 @@
-{% extends "AcmeShopBundle:Shop:layout.html.twig" %}
-{% block title %}List of Posts{% endblock %}
-{% block body %}
+{% extends '::base.html.twig' %}
 
-<div id="main_container">
-    <div id="container">
-        <h2>Проверка местонахождение на магазини</h2>
-                <div id="input_request_data">
-                    <pre>
-            Въвеждане на координати
-            <input type="text" id="longitude" placeholder="Дължина">
-            <input type="number" id="latitude" placeholder="Ширина">
-            <input type="number" id="radius" placeholder="Радиус">
-            <button type="button" id="calc_btn">Проверка</button>
-                    </pre>
-                </div>
-                <div id="show_result">
+{% block body -%}
+    <h1>Shop list</h1>
 
-                </div>
-                <input type="hidden" id="calc_shops_path" 
-                       value="{{ url('acme_shop_calc_shops') }}">
-    </div>
-</div>
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Contacts</th>
+                <th>Description</th>
+                <th>Longitude</th>
+                <th>Latitude</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('shop_crud_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.name }}</td>
+                <td>{{ entity.contacts }}</td>
+                <td>{{ entity.description }}</td>
+                <td>{{ entity.longitude }}</td>
+                <td>{{ entity.latitude }}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('shop_crud_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('shop_crud_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
-{% endblock %}
+        <ul>
+        <li>
+            <a href="{{ path('shop_crud_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+    {% endblock %}

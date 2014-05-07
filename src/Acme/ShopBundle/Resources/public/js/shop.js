@@ -7,17 +7,20 @@ $(document).ready(function() {
 function getShopsInArea() {
     var request = {};
     var link = $("#calc_shops_path").val();
-    var radius = 0;
     
     request['longitude']=$("#longitude").val();    
-    request['latitude']=$('input#latitude').val();
-    request['radius']=$('input#radius').val();
+    request['latitude']=$('#latitude').val();
+    request['radius']=$('#radius').val();
+    request['client_id']=$('#client_id').val();
     
     console.log(link);
+    console.log('longitude: '+request['longitude']);
+    console.log('latitude: '+request['latitude']);
+    console.log('radius: '+request['radius']);
     
     $.post( link, request)
   .done(function( data ) {
-    console.log( "Data Loaded: " + data );
+    // console.log( "Data Loaded: " + data );
   });
     
     

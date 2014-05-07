@@ -140,26 +140,139 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
             return $this->mergeDefaults(array_replace($matches, array('_route' => 'acme_shops_homepage')), array (  '_controller' => 'Acme\\ShopsBundle\\Controller\\DefaultController::indexAction',));
         }
 
-        if (0 === strpos($pathinfo, '/shop')) {
-            // acme_shop_calc_shops
-            if ($pathinfo === '/shop/calcShops') {
-                return array (  '_controller' => 'Acme\\ShopBundle\\Controller\\ShopController::calcShopsAction',  '_route' => 'acme_shop_calc_shops',);
+        if (0 === strpos($pathinfo, '/c')) {
+            if (0 === strpos($pathinfo, '/calc')) {
+                // acme_shop_search_shops
+                if ($pathinfo === '/calc/searchShops') {
+                    return array (  '_controller' => 'Acme\\ShopBundle\\Controller\\CalculatorController::calculateShopsByCoordinatesAction',  '_route' => 'acme_shop_search_shops',);
+                }
+
+                // acme_shop_homepage
+                if ($pathinfo === '/calc') {
+                    return array (  '_controller' => 'Acme\\ShopBundle\\Controller\\CalculatorController::indexAction',  '_route' => 'acme_shop_homepage',);
+                }
+
             }
 
-            // acme_shop_homepage
-            if ($pathinfo === '/shop') {
-                return array (  '_controller' => 'Acme\\ShopBundle\\Controller\\ShopController::indexAction',  '_route' => 'acme_shop_homepage',);
+            if (0 === strpos($pathinfo, '/client_crud')) {
+                // client_crud
+                if (rtrim($pathinfo, '/') === '/client_crud') {
+                    if (substr($pathinfo, -1) !== '/') {
+                        return $this->redirect($pathinfo.'/', 'client_crud');
+                    }
+
+                    return array (  '_controller' => 'Acme\\ShopBundle\\Controller\\ClientController::indexAction',  '_route' => 'client_crud',);
+                }
+
+                // client_crud_show
+                if (preg_match('#^/client_crud/(?P<id>[^/]++)/show$#s', $pathinfo, $matches)) {
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'client_crud_show')), array (  '_controller' => 'Acme\\ShopBundle\\Controller\\ClientController::showAction',));
+                }
+
+                // client_crud_new
+                if ($pathinfo === '/client_crud/new') {
+                    return array (  '_controller' => 'Acme\\ShopBundle\\Controller\\ClientController::newAction',  '_route' => 'client_crud_new',);
+                }
+
+                // client_crud_create
+                if ($pathinfo === '/client_crud/create') {
+                    if ($this->context->getMethod() != 'POST') {
+                        $allow[] = 'POST';
+                        goto not_client_crud_create;
+                    }
+
+                    return array (  '_controller' => 'Acme\\ShopBundle\\Controller\\ClientController::createAction',  '_route' => 'client_crud_create',);
+                }
+                not_client_crud_create:
+
+                // client_crud_edit
+                if (preg_match('#^/client_crud/(?P<id>[^/]++)/edit$#s', $pathinfo, $matches)) {
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'client_crud_edit')), array (  '_controller' => 'Acme\\ShopBundle\\Controller\\ClientController::editAction',));
+                }
+
+                // client_crud_update
+                if (preg_match('#^/client_crud/(?P<id>[^/]++)/update$#s', $pathinfo, $matches)) {
+                    if (!in_array($this->context->getMethod(), array('POST', 'PUT'))) {
+                        $allow = array_merge($allow, array('POST', 'PUT'));
+                        goto not_client_crud_update;
+                    }
+
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'client_crud_update')), array (  '_controller' => 'Acme\\ShopBundle\\Controller\\ClientController::updateAction',));
+                }
+                not_client_crud_update:
+
+                // client_crud_delete
+                if (preg_match('#^/client_crud/(?P<id>[^/]++)/delete$#s', $pathinfo, $matches)) {
+                    if (!in_array($this->context->getMethod(), array('POST', 'DELETE'))) {
+                        $allow = array_merge($allow, array('POST', 'DELETE'));
+                        goto not_client_crud_delete;
+                    }
+
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'client_crud_delete')), array (  '_controller' => 'Acme\\ShopBundle\\Controller\\ClientController::deleteAction',));
+                }
+                not_client_crud_delete:
+
             }
 
-            // acme_shop_insert_client
-            if ($pathinfo === '/shop/insertClient') {
-                return array (  '_controller' => 'Acme\\ShopBundle\\Controller\\ShopController::insertClientAction',  '_route' => 'acme_shop_insert_client',);
+        }
+
+        if (0 === strpos($pathinfo, '/shop_crud')) {
+            // shop_crud
+            if (rtrim($pathinfo, '/') === '/shop_crud') {
+                if (substr($pathinfo, -1) !== '/') {
+                    return $this->redirect($pathinfo.'/', 'shop_crud');
+                }
+
+                return array (  '_controller' => 'Acme\\ShopBundle\\Controller\\ShopController::indexAction',  '_route' => 'shop_crud',);
             }
 
-            // load_client_by_id
-            if (0 === strpos($pathinfo, '/shop/loadClientById') && preg_match('#^/shop/loadClientById/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
-                return $this->mergeDefaults(array_replace($matches, array('_route' => 'load_client_by_id')), array (  '_controller' => 'Acme\\ShopBundle\\Controller\\ShopController::loadClientByIdAction',));
+            // shop_crud_show
+            if (preg_match('#^/shop_crud/(?P<id>[^/]++)/show$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'shop_crud_show')), array (  '_controller' => 'Acme\\ShopBundle\\Controller\\ShopController::showAction',));
             }
+
+            // shop_crud_new
+            if ($pathinfo === '/shop_crud/new') {
+                return array (  '_controller' => 'Acme\\ShopBundle\\Controller\\ShopController::newAction',  '_route' => 'shop_crud_new',);
+            }
+
+            // shop_crud_create
+            if ($pathinfo === '/shop_crud/create') {
+                if ($this->context->getMethod() != 'POST') {
+                    $allow[] = 'POST';
+                    goto not_shop_crud_create;
+                }
+
+                return array (  '_controller' => 'Acme\\ShopBundle\\Controller\\ShopController::createAction',  '_route' => 'shop_crud_create',);
+            }
+            not_shop_crud_create:
+
+            // shop_crud_edit
+            if (preg_match('#^/shop_crud/(?P<id>[^/]++)/edit$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'shop_crud_edit')), array (  '_controller' => 'Acme\\ShopBundle\\Controller\\ShopController::editAction',));
+            }
+
+            // shop_crud_update
+            if (preg_match('#^/shop_crud/(?P<id>[^/]++)/update$#s', $pathinfo, $matches)) {
+                if (!in_array($this->context->getMethod(), array('POST', 'PUT'))) {
+                    $allow = array_merge($allow, array('POST', 'PUT'));
+                    goto not_shop_crud_update;
+                }
+
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'shop_crud_update')), array (  '_controller' => 'Acme\\ShopBundle\\Controller\\ShopController::updateAction',));
+            }
+            not_shop_crud_update:
+
+            // shop_crud_delete
+            if (preg_match('#^/shop_crud/(?P<id>[^/]++)/delete$#s', $pathinfo, $matches)) {
+                if (!in_array($this->context->getMethod(), array('POST', 'DELETE'))) {
+                    $allow = array_merge($allow, array('POST', 'DELETE'));
+                    goto not_shop_crud_delete;
+                }
+
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'shop_crud_delete')), array (  '_controller' => 'Acme\\ShopBundle\\Controller\\ShopController::deleteAction',));
+            }
+            not_shop_crud_delete:
 
         }
 

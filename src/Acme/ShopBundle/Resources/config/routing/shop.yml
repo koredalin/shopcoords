@@ -1,0 +1,30 @@
+shop_crud:
+    pattern:  /
+    defaults: { _controller: "AcmeShopBundle:Shop:index" }
+
+shop_crud_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "AcmeShopBundle:Shop:show" }
+
+shop_crud_new:
+    pattern:  /new
+    defaults: { _controller: "AcmeShopBundle:Shop:new" }
+
+shop_crud_create:
+    pattern:  /create
+    defaults: { _controller: "AcmeShopBundle:Shop:create" }
+    requirements: { _method: post }
+
+shop_crud_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "AcmeShopBundle:Shop:edit" }
+
+shop_crud_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "AcmeShopBundle:Shop:update" }
+    requirements: { _method: post|put }
+
+shop_crud_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "AcmeShopBundle:Shop:delete" }
+    requirements: { _method: post|delete }

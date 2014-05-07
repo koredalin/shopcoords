@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>{% block title %}{{ page_title }}{% endblock %}</title>
+        <link href="{{ asset('css/shop.css') }}" rel="stylesheet" type="text/css" />
+        {% block javascripts %}
+        {#{% javascripts '@AcmeShopBundle/Resources/public/js/lib/jquery.min.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+        {% javascripts '@AcmeShopBundle/Resources/public/js/shop.js' %}#}
+        {% javascripts '@jquery_and_shop_js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+        {% endblock %}
+        {% block stylesheets %}
+    {% stylesheets '@AcmeShopBundle/Resources/public/css/shop.css' filter='cssrewrite' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
+    </head>
+    <body>
+        {% block body %}{% endblock %}
+        
+        
+    </body>
+</html>

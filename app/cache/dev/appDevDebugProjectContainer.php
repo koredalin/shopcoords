@@ -33,6 +33,7 @@ class appDevDebugProjectContainer extends Container
         $this->scopeChildren = array('request' => array());
         $this->methodMap = array(
             'acme.demo.listener' => 'getAcme_Demo_ListenerService',
+            'acme_shop.client' => 'getAcmeShop_ClientService',
             'annotation_reader' => 'getAnnotationReaderService',
             'assetic.asset_factory' => 'getAssetic_AssetFactoryService',
             'assetic.asset_manager' => 'getAssetic_AssetManagerService',
@@ -268,6 +269,23 @@ class appDevDebugProjectContainer extends Container
     protected function getAcme_Demo_ListenerService()
     {
         return $this->services['acme.demo.listener'] = new \Acme\DemoBundle\EventListener\ControllerListener($this->get('twig.extension.acme.demo'));
+    }
+
+    /**
+     * Gets the 'acme_shop.client' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return Acme\ShopBundle\Controller\ClientController A Acme\ShopBundle\Controller\ClientController instance.
+     */
+    protected function getAcmeShop_ClientService()
+    {
+        $this->services['acme_shop.client'] = $instance = new \Acme\ShopBundle\Controller\ClientController();
+
+        $instance->setContainer($this);
+
+        return $instance;
     }
 
     /**

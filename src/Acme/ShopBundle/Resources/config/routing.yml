@@ -18,21 +18,35 @@
 
 
 
-acme_shop_calc_shops:
-    pattern:  /shop/calcShops
-    defaults: { _controller: AcmeShopBundle:Shop:calcShops }
+acme_shop_search_shops:
+    pattern:  /calc/searchShops
+    defaults: { _controller: AcmeShopBundle:Calculator:calculateShopsByCoordinates }
 #    prefix:   /shop
 
 acme_shop_homepage:
-    pattern:  /shop
-    defaults: { _controller: AcmeShopBundle:Shop:index }
+    pattern:  /calc
+    defaults: { _controller: AcmeShopBundle:Calculator:index }
     
-acme_shop_insert_client:
-    pattern:  /shop/insertClient
-    defaults: { _controller: AcmeShopBundle:Shop:insertClient }
+#acme_shop_insert_client:
+#    pattern:  /shop/insertClient
+#    defaults: { _controller: AcmeShopBundle:Shop:insertClient }
     
-load_client_by_id:
-    pattern: /shop/loadClientById/{id}
-    defaults: { _controller: AcmeShopBundle:Shop:loadClientById }
-    requirements:
-        page: \d+
+#load_client_by_id:
+#    pattern: /shop/loadClientById/{id}
+#    defaults: { _controller: AcmeShopBundle:Shop:loadClientById }
+#    requirements:
+#        page: \d+
+        
+#client_crud:
+#pattern: /client/{action}
+#    defaults: { _controller: AcmeShopBundle:Client:index }
+
+AcmeShopBundle_client_crud:
+        resource: "@AcmeShopBundle/Resources/config/routing/client.yml"
+        prefix:   /client_crud
+        
+AcmeShopBundle_shop_crud:
+        resource: "@AcmeShopBundle/Resources/config/routing/shop.yml"
+        prefix:   /shop_crud
+
+

@@ -4,25 +4,52 @@ namespace Acme\ShopBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class ShopControllerTest extends WebTestCase {
+class ShopControllerTest extends WebTestCase
+{
+    /*
+    public function testCompleteScenario()
+    {
+        // Create a new client to browse the application
+        $client = static::createClient();
 
-    public function testIndex() {
-        $client = parent::createClient();
+        // Create a new entry in the database
+        $crawler = $client->request('GET', '/shop_crud/');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /shop_crud/");
+        $crawler = $client->click($crawler->selectLink('Create a new entry')->link());
 
-        // Submit a raw JSON string in the request body
-        $crawler=$client->request(
-                'POST', '/shop/calcShops', array(), array(), array('CONTENT_TYPE' => 'application/json'), '{"longitude":4, "latitude": 5, "radius": 7}'
-        );
+        // Fill in the form and submit it
+        $form = $crawler->selectButton('Create')->form(array(
+            'acme_shopbundle_shoptype[field_name]'  => 'Test',
+            // ... other fields to fill
+        ));
 
-        // Assert that the "Content-Type" header is "application/json"
-        $this->assertTrue(
-                $client->getResponse()->headers->contains(
-                        'Content-Type', 'application/json'
-                )
-        );
-        
-        // Checks result
-        $this->assertRegExp('/{"result":16}/', $client->getResponse()->getContent());
+        $client->submit($form);
+        $crawler = $client->followRedirect();
+
+        // Check data in the show view
+        $this->assertGreaterThan(0, $crawler->filter('td:contains("Test")')->count(), 'Missing element td:contains("Test")');
+
+        // Edit the entity
+        $crawler = $client->click($crawler->selectLink('Edit')->link());
+
+        $form = $crawler->selectButton('Edit')->form(array(
+            'acme_shopbundle_shoptype[field_name]'  => 'Foo',
+            // ... other fields to fill
+        ));
+
+        $client->submit($form);
+        $crawler = $client->followRedirect();
+
+        // Check the element contains an attribute with value equals "Foo"
+        $this->assertGreaterThan(0, $crawler->filter('[value="Foo"]')->count(), 'Missing element [value="Foo"]');
+
+        // Delete the entity
+        $client->submit($crawler->selectButton('Delete')->form());
+        $crawler = $client->followRedirect();
+
+        // Check the entity has been delete on the list
+        $this->assertNotRegExp('/Foo/', $client->getResponse()->getContent());
     }
 
+    */
 }
