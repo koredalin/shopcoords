@@ -43,24 +43,51 @@ class MyCalculator {
         $radius = $valid_data['radius'];
 
         try {
-            $user='shopcoord';
-            $password='scd'; 
+            $user = 'shopcoord';
+            $password = 'scd';
             # MySQL with PDO_MYSQL
             $conn = new \PDO("mysql:host=127.0.0.1;dbname=shopcoords", $user, $password);
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
 
-        $query_shops = $conn->query(
-                "SELECT * "
-                . "FROM `Shop`"
-                . "WHERE ");
+        /*
+        $query_function = $conn->prepare(
+                "DELIMITER $$ "
+                . "CREATE FUNCTION calcDistance(longitude INT, latitude INT, "
+                . "cl_lon INT, cl_lat INT) RETURNS DECIMAL(9,2) "
+                . "BEGIN "
+                . "DECLARE distance DECIMAL(9,2); "
+                . "SET distance = SQRT(ABS(cl_lon - longitude) * ABS(cl_lon - longitude) "
+                . "+ ABS(cl_lat - latitude) * ABS(cl_lat - latitude)); "
+                . "RETURN distance; "
+                . "END$$ "
+                 . "DELIMITER ");
+        if (!$query_function) {
+            echo "\nPDO::errorInfo():\n";
+            print_r($conn->errorInfo());
+        }
+         */
+        $query_distance = $conn->prepare(
+                "SELECT *, calcDistance(`longitude`, `latitude`, "
+                . $client_longitude . ", " . $client_latitude . ") AS distance "
+                . "FROM `Shop` ");
+        if (!$query_distance) {
+            echo "\nPDO::errorInfo():\n";
+            print_r($conn->errorInfo());
+        }
+        $query_distance->execute();
+        $shops = $query_distance->fetchAll(\PDO::FETCH_ASSOC);
+        // echo 'Rows affected: '.$query_distance->rowCount($query_distance). '<br />';
         
-        $shops = $query_shops->fetchAll(\PDO::FETCH_ASSOC);
-
-        var_dump($shops);
-        exit;
-        return $in_range;
+        $shops_in_range=array();
+        foreach ($shops as $shop) {
+            if ($shop['distance']<=$radius) {
+                $shops_in_range[] = $shop;
+            }
+        }
+        
+        return $shops_in_range;
     }
 
     public function validateEntries(Request $request) {
@@ -91,8 +118,13 @@ class MyCalculator {
 }
 
 /*
-//$request_data['client']= $this->loadClientByIdAction($request_data['client_id']);
+$request_data['client']= $this->loadClientByIdAction($request_data['client_id']);
         
-        $client_name=$this->get('acme_shop.client')->loadClientByIdAction($request_data['client_id']);
- 
+$client_name=$this->get('acme_shop.client')->loadClientByIdAction($request_data['client_id']);
+
+  
+//                $long_distance = ABS(cl_lon - longitude);
+//                $lati_distance = ABS(cl_lat - latitude);
+//                $dist = round(SQRT(ABS(cl_lon - longitude) * ABS(cl_lon - longitude) + ABS(cl_lat - latitude) * ABS(cl_lat - latitude)), 2);
+  
 /**/
