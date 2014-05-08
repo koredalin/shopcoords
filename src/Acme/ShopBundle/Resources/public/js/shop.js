@@ -22,6 +22,11 @@ function getShopsInArea() {
     
     $.post( link, request)
   .done(function( data ) {
+      var str_result='';
+      str_result=JSON.stringify(data);
+      $('#show_result').html('<p>' + str_result + '</p>');
+      
+      
     // console.log( "Data Loaded: " + data );
   });
     

@@ -51,6 +51,9 @@ class CalculatorController extends Controller {
         return $response;
     }
 
+}
+
+/*
     public function insertClientAction() {
         $client = new Client();
         $client->setFirstName('Dimitar');
@@ -61,5 +64,4 @@ class CalculatorController extends Controller {
         $em->flush();
         return new Response('Created product id ' . $client->getId());
     }
-
-}
+ */
