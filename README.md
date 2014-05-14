@@ -24,23 +24,30 @@ Js и css файловете инклуднах с assets.
 ### Относно MySQL
 Чрез mysql функция изчислявам дистанцията според координатите на клиента за всеки магазин. Функцията се записва еднократно в mysql сървъра и след това това се извиква с обикновена SELSCT заявка.
 Единственото нещо което смята php в крайна сметка е да отдели кои магазини са с дистанция по-малка от радиуса.
-Представям ви кода на заявките:
 
-DELIMITER $$ 
-CREATE FUNCTION calcDistance(longitude INT, latitude INT, 
-cl_lon INT, cl_lat INT) RETURNS DECIMAL(9,2) 
-BEGIN 
-DECLARE distance DECIMAL(9,2); 
-SET distance = SQRT(ABS(cl_lon - longitude) * ABS(cl_lon - longitude) 
-+ ABS(cl_lat - latitude) * ABS(cl_lat - latitude)); 
-RETURN distance; 
-END$$ 
-DELIMITER ;
+Представям ви кода на функцията:
 
-SELECT *, calcDistance(`longitude`, `latitude`, 
-100000, 100000) AS distance 
-FROM `Shop` 
-WHERE distance < 200;
+    ```mysql
+    mysql> DELIMITER $$ 
+    > CREATE FUNCTION calcDistance(longitude INT, latitude INT, 
+    > cl_lon INT, cl_lat INT) RETURNS DECIMAL(9,2) 
+    > BEGIN 
+    > DECLARE distance DECIMAL(9,2); 
+    > SET distance = SQRT(ABS(cl_lon - longitude) * ABS(cl_lon - longitude) + 
+    > ABS(cl_lat - latitude) * ABS(cl_lat - latitude)); 
+    > RETURN distance; 
+    > END$$ 
+    > DELIMITER;
+    ```
+
+и заявката:
+
+    ```mysql
+    mysql> SELECT *, calcDistance(`longitude`, `latitude`, 
+    > 100000, 100000) AS distance 
+    > FROM `Shop` 
+    > WHERE distance < 200;
+    ```
 
 За мен и Symfony
 -------------------------------------
