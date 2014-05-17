@@ -593,14 +593,15 @@ class appDevDebugProjectContainer extends Container
         $c = new \Doctrine\Common\Cache\ArrayCache();
         $c->setNamespace('sf2orm_default_27dd91417d86f0f3579a75720f0ec55d');
 
-        $d = new \Doctrine\ORM\Mapping\Driver\SimplifiedYamlDriver(array('/home/koredalin/public_html/sc231/src/Acme/ShopBundle/Resources/config/doctrine' => 'Acme\\ShopBundle\\Entity'));
+        $d = new \Doctrine\ORM\Mapping\Driver\SimplifiedYamlDriver(array('/home/koredalin/public_html/sc231/src/Acme/ShopBundle/Resources/config/doctrine' => 'Acme\\ShopBundle\\Entity', '/home/koredalin/public_html/sc231/src/Acme/StoreBundle/Resources/config/doctrine' => 'Acme\\StoreBundle\\Entity'));
         $d->setGlobalBasename('mapping');
 
         $e = new \Doctrine\ORM\Mapping\Driver\DriverChain();
         $e->addDriver($d, 'Acme\\ShopBundle\\Entity');
+        $e->addDriver($d, 'Acme\\StoreBundle\\Entity');
 
         $f = new \Doctrine\ORM\Configuration();
-        $f->setEntityNamespaces(array('AcmeShopBundle' => 'Acme\\ShopBundle\\Entity'));
+        $f->setEntityNamespaces(array('AcmeShopBundle' => 'Acme\\ShopBundle\\Entity', 'AcmeStoreBundle' => 'Acme\\StoreBundle\\Entity'));
         $f->setMetadataCacheImpl($a);
         $f->setQueryCacheImpl($b);
         $f->setResultCacheImpl($c);
@@ -2909,6 +2910,7 @@ class appDevDebugProjectContainer extends Container
         $instance->addPath('/home/koredalin/public_html/sc231/vendor/symfony/swiftmailer-bundle/Symfony/Bundle/SwiftmailerBundle/Resources/views', 'Swiftmailer');
         $instance->addPath('/home/koredalin/public_html/sc231/vendor/doctrine/doctrine-bundle/Doctrine/Bundle/DoctrineBundle/Resources/views', 'Doctrine');
         $instance->addPath('/home/koredalin/public_html/sc231/src/Acme/ShopBundle/Resources/views', 'AcmeShop');
+        $instance->addPath('/home/koredalin/public_html/sc231/src/Acme/StoreBundle/Resources/views', 'AcmeStore');
         $instance->addPath('/home/koredalin/public_html/sc231/src/Acme/DemoBundle/Resources/views', 'AcmeDemo');
         $instance->addPath('/home/koredalin/public_html/sc231/vendor/symfony/symfony/src/Symfony/Bundle/WebProfilerBundle/Resources/views', 'WebProfiler');
         $instance->addPath('/home/koredalin/public_html/sc231/vendor/sensio/distribution-bundle/Sensio/Bundle/DistributionBundle/Resources/views', 'SensioDistribution');
@@ -3360,6 +3362,7 @@ class appDevDebugProjectContainer extends Container
                 'DoctrineBundle' => 'Doctrine\\Bundle\\DoctrineBundle\\DoctrineBundle',
                 'SensioFrameworkExtraBundle' => 'Sensio\\Bundle\\FrameworkExtraBundle\\SensioFrameworkExtraBundle',
                 'AcmeShopBundle' => 'Acme\\ShopBundle\\AcmeShopBundle',
+                'AcmeStoreBundle' => 'Acme\\StoreBundle\\AcmeStoreBundle',
                 'AcmeDemoBundle' => 'Acme\\DemoBundle\\AcmeDemoBundle',
                 'WebProfilerBundle' => 'Symfony\\Bundle\\WebProfilerBundle\\WebProfilerBundle',
                 'SensioDistributionBundle' => 'Sensio\\Bundle\\DistributionBundle\\SensioDistributionBundle',

@@ -1,0 +1,33 @@
+Acme\StoreBundle\Entity\Car:
+    type: entity
+    table: car
+    repositoryClass: Acme\StoreBundle\Entity\CarRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        brand:
+            type: string
+            length: '60'
+        model:
+            type: string
+            length: '60'
+        producedDate:
+            type: date
+            column: produced_date
+        cost:
+            type: integer
+        currency:
+            type: string
+            length: '10'
+    manyToOne:
+        owner:
+            targetEntity: Owner
+            inversedBy: cars
+            joinColumn:
+                name: owner_id
+                referencedColumnName: id
+    lifecycleCallbacks: {  }

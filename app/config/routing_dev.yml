@@ -21,6 +21,14 @@ _acme_demo:
 _acme_shop:
     resource: "@AcmeShopBundle/Resources/config/routing.yml"
     
+AcmeStoreBundle_owner:
+    resource: "@AcmeStoreBundle/Resources/config/routing/owner.yml"
+    prefix:   /owner
+
+AcmeStoreBundle_car:
+    resource: "@AcmeStoreBundle/Resources/config/routing/car.yml"
+    prefix:   /car
+    
 _assetic:
     resource: .
     type:     assetic

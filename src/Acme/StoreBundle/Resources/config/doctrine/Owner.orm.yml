@@ -1,0 +1,29 @@
+Acme\StoreBundle\Entity\Owner:
+    type: entity
+    table: owner
+    repositoryClass: Acme\StoreBundle\Entity\OwnerRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        firstName:
+            type: string
+            length: '60'
+            column: first_name
+        lastName:
+            type: string
+            length: '60'
+            column: last_name
+        born:
+            type: date
+        gender:
+            type: string
+            length: '10'
+    oneToMany:
+        cars:
+            targetEntity: Car
+            mappedBy: owner
+    lifecycleCallbacks: {  }

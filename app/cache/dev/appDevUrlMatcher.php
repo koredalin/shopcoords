@@ -133,6 +133,11 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
 
         }
 
+        // acme_store_homepage
+        if (0 === strpos($pathinfo, '/store/hello') && preg_match('#^/store/hello/(?P<name>[^/]++)$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'acme_store_homepage')), array (  '_controller' => 'Acme\\StoreBundle\\Controller\\DefaultController::indexAction',));
+        }
+
         // _welcome
         if (rtrim($pathinfo, '/') === '') {
             if (substr($pathinfo, -1) !== '/') {
@@ -339,6 +344,126 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                 return $this->mergeDefaults(array_replace($matches, array('_route' => 'shop_crud_delete')), array (  '_controller' => 'Acme\\ShopBundle\\Controller\\ShopController::deleteAction',));
             }
             not_shop_crud_delete:
+
+        }
+
+        if (0 === strpos($pathinfo, '/owner')) {
+            // owner
+            if (rtrim($pathinfo, '/') === '/owner') {
+                if (substr($pathinfo, -1) !== '/') {
+                    return $this->redirect($pathinfo.'/', 'owner');
+                }
+
+                return array (  '_controller' => 'Acme\\StoreBundle\\Controller\\OwnerController::indexAction',  '_route' => 'owner',);
+            }
+
+            // owner_show
+            if (preg_match('#^/owner/(?P<id>[^/]++)/show$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'owner_show')), array (  '_controller' => 'Acme\\StoreBundle\\Controller\\OwnerController::showAction',));
+            }
+
+            // owner_new
+            if ($pathinfo === '/owner/new') {
+                return array (  '_controller' => 'Acme\\StoreBundle\\Controller\\OwnerController::newAction',  '_route' => 'owner_new',);
+            }
+
+            // owner_create
+            if ($pathinfo === '/owner/create') {
+                if ($this->context->getMethod() != 'POST') {
+                    $allow[] = 'POST';
+                    goto not_owner_create;
+                }
+
+                return array (  '_controller' => 'Acme\\StoreBundle\\Controller\\OwnerController::createAction',  '_route' => 'owner_create',);
+            }
+            not_owner_create:
+
+            // owner_edit
+            if (preg_match('#^/owner/(?P<id>[^/]++)/edit$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'owner_edit')), array (  '_controller' => 'Acme\\StoreBundle\\Controller\\OwnerController::editAction',));
+            }
+
+            // owner_update
+            if (preg_match('#^/owner/(?P<id>[^/]++)/update$#s', $pathinfo, $matches)) {
+                if (!in_array($this->context->getMethod(), array('POST', 'PUT'))) {
+                    $allow = array_merge($allow, array('POST', 'PUT'));
+                    goto not_owner_update;
+                }
+
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'owner_update')), array (  '_controller' => 'Acme\\StoreBundle\\Controller\\OwnerController::updateAction',));
+            }
+            not_owner_update:
+
+            // owner_delete
+            if (preg_match('#^/owner/(?P<id>[^/]++)/delete$#s', $pathinfo, $matches)) {
+                if (!in_array($this->context->getMethod(), array('POST', 'DELETE'))) {
+                    $allow = array_merge($allow, array('POST', 'DELETE'));
+                    goto not_owner_delete;
+                }
+
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'owner_delete')), array (  '_controller' => 'Acme\\StoreBundle\\Controller\\OwnerController::deleteAction',));
+            }
+            not_owner_delete:
+
+        }
+
+        if (0 === strpos($pathinfo, '/car')) {
+            // car
+            if (rtrim($pathinfo, '/') === '/car') {
+                if (substr($pathinfo, -1) !== '/') {
+                    return $this->redirect($pathinfo.'/', 'car');
+                }
+
+                return array (  '_controller' => 'Acme\\StoreBundle\\Controller\\CarController::indexAction',  '_route' => 'car',);
+            }
+
+            // car_show
+            if (preg_match('#^/car/(?P<id>[^/]++)/show$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'car_show')), array (  '_controller' => 'Acme\\StoreBundle\\Controller\\CarController::showAction',));
+            }
+
+            // car_new
+            if ($pathinfo === '/car/new') {
+                return array (  '_controller' => 'Acme\\StoreBundle\\Controller\\CarController::newAction',  '_route' => 'car_new',);
+            }
+
+            // car_create
+            if ($pathinfo === '/car/create') {
+                if ($this->context->getMethod() != 'POST') {
+                    $allow[] = 'POST';
+                    goto not_car_create;
+                }
+
+                return array (  '_controller' => 'Acme\\StoreBundle\\Controller\\CarController::createAction',  '_route' => 'car_create',);
+            }
+            not_car_create:
+
+            // car_edit
+            if (preg_match('#^/car/(?P<id>[^/]++)/edit$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'car_edit')), array (  '_controller' => 'Acme\\StoreBundle\\Controller\\CarController::editAction',));
+            }
+
+            // car_update
+            if (preg_match('#^/car/(?P<id>[^/]++)/update$#s', $pathinfo, $matches)) {
+                if (!in_array($this->context->getMethod(), array('POST', 'PUT'))) {
+                    $allow = array_merge($allow, array('POST', 'PUT'));
+                    goto not_car_update;
+                }
+
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'car_update')), array (  '_controller' => 'Acme\\StoreBundle\\Controller\\CarController::updateAction',));
+            }
+            not_car_update:
+
+            // car_delete
+            if (preg_match('#^/car/(?P<id>[^/]++)/delete$#s', $pathinfo, $matches)) {
+                if (!in_array($this->context->getMethod(), array('POST', 'DELETE'))) {
+                    $allow = array_merge($allow, array('POST', 'DELETE'));
+                    goto not_car_delete;
+                }
+
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'car_delete')), array (  '_controller' => 'Acme\\StoreBundle\\Controller\\CarController::deleteAction',));
+            }
+            not_car_delete:
 
         }
 

@@ -1,0 +1,30 @@
+owner:
+    pattern:  /
+    defaults: { _controller: "AcmeStoreBundle:Owner:index" }
+
+owner_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "AcmeStoreBundle:Owner:show" }
+
+owner_new:
+    pattern:  /new
+    defaults: { _controller: "AcmeStoreBundle:Owner:new" }
+
+owner_create:
+    pattern:  /create
+    defaults: { _controller: "AcmeStoreBundle:Owner:create" }
+    requirements: { _method: post }
+
+owner_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "AcmeStoreBundle:Owner:edit" }
+
+owner_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "AcmeStoreBundle:Owner:update" }
+    requirements: { _method: post|put }
+
+owner_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "AcmeStoreBundle:Owner:delete" }
+    requirements: { _method: post|delete }

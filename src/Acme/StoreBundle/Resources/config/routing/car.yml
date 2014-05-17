@@ -1,0 +1,30 @@
+car:
+    pattern:  /
+    defaults: { _controller: "AcmeStoreBundle:Car:index" }
+
+car_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "AcmeStoreBundle:Car:show" }
+
+car_new:
+    pattern:  /new
+    defaults: { _controller: "AcmeStoreBundle:Car:new" }
+
+car_create:
+    pattern:  /create
+    defaults: { _controller: "AcmeStoreBundle:Car:create" }
+    requirements: { _method: post }
+
+car_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "AcmeStoreBundle:Car:edit" }
+
+car_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "AcmeStoreBundle:Car:update" }
+    requirements: { _method: post|put }
+
+car_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "AcmeStoreBundle:Car:delete" }
+    requirements: { _method: post|delete }

@@ -17,6 +17,7 @@
       <parameter key="DoctrineBundle">Doctrine\Bundle\DoctrineBundle\DoctrineBundle</parameter>
       <parameter key="SensioFrameworkExtraBundle">Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle</parameter>
       <parameter key="AcmeShopBundle">Acme\ShopBundle\AcmeShopBundle</parameter>
+      <parameter key="AcmeStoreBundle">Acme\StoreBundle\AcmeStoreBundle</parameter>
       <parameter key="AcmeDemoBundle">Acme\DemoBundle\AcmeDemoBundle</parameter>
       <parameter key="WebProfilerBundle">Symfony\Bundle\WebProfilerBundle\WebProfilerBundle</parameter>
       <parameter key="SensioDistributionBundle">Sensio\Bundle\DistributionBundle\SensioDistributionBundle</parameter>
@@ -2276,6 +2277,7 @@
           <call method="setEntityNamespaces">
             <argument type="collection">
               <argument key="AcmeShopBundle">Acme\ShopBundle\Entity</argument>
+              <argument key="AcmeStoreBundle">Acme\StoreBundle\Entity</argument>
             </argument>
           </call>
           <call method="setMetadataCacheImpl">
@@ -2313,6 +2315,7 @@
                     <service class="Doctrine\ORM\Mapping\Driver\SimplifiedYamlDriver" public="false">
                       <argument type="collection">
                         <argument key="/home/koredalin/public_html/sc231/src/Acme/ShopBundle/Resources/config/doctrine">Acme\ShopBundle\Entity</argument>
+                        <argument key="/home/koredalin/public_html/sc231/src/Acme/StoreBundle/Resources/config/doctrine">Acme\StoreBundle\Entity</argument>
                       </argument>
                       <call method="setGlobalBasename">
                         <argument>mapping</argument>
@@ -2320,6 +2323,20 @@
                     </service>
                   </argument>
                   <argument>Acme\ShopBundle\Entity</argument>
+                </call>
+                <call method="addDriver">
+                  <argument type="service">
+                    <service class="Doctrine\ORM\Mapping\Driver\SimplifiedYamlDriver" public="false">
+                      <argument type="collection">
+                        <argument key="/home/koredalin/public_html/sc231/src/Acme/ShopBundle/Resources/config/doctrine">Acme\ShopBundle\Entity</argument>
+                        <argument key="/home/koredalin/public_html/sc231/src/Acme/StoreBundle/Resources/config/doctrine">Acme\StoreBundle\Entity</argument>
+                      </argument>
+                      <call method="setGlobalBasename">
+                        <argument>mapping</argument>
+                      </call>
+                    </service>
+                  </argument>
+                  <argument>Acme\StoreBundle\Entity</argument>
                 </call>
               </service>
             </argument>
@@ -2725,6 +2742,10 @@
       <call method="addPath">
         <argument>/home/koredalin/public_html/sc231/src/Acme/ShopBundle/Resources/views</argument>
         <argument>AcmeShop</argument>
+      </call>
+      <call method="addPath">
+        <argument>/home/koredalin/public_html/sc231/src/Acme/StoreBundle/Resources/views</argument>
+        <argument>AcmeStore</argument>
       </call>
       <call method="addPath">
         <argument>/home/koredalin/public_html/sc231/src/Acme/DemoBundle/Resources/views</argument>
