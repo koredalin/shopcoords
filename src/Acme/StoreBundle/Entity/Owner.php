@@ -43,8 +43,6 @@ class Owner {
     public function __construct() {
         $this->cars = new ArrayCollection();
     }
-    
-    
 
     /**
      * Get id
@@ -137,6 +135,11 @@ class Owner {
      */
     public function getGender() {
         return $this->gender;
+    }
+
+    public function __toString() {
+        $owner = $this->getFirstName(). ' ' . $this->getLastName();
+        return (string) $owner;
     }
 
 }

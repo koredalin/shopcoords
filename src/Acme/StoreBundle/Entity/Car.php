@@ -164,5 +164,17 @@ class Car {
     public function getOwner() {
         return $this->owner;
     }
+    
+    /**
+     * Set owner
+     *
+     * @param integer $owner
+     * @return Car
+     */
+    public function setOwner($owner) {
+        $this->owner = $owner;
+
+        return $this;
+    }
 
 }
