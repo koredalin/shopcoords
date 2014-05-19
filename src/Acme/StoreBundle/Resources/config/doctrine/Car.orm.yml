@@ -1,6 +1,9 @@
 Acme\StoreBundle\Entity\Car:
     type: entity
     table: car
+#    uniqueConstraints:
+#        unique_index:
+#            columns: [ owner_id ]
     repositoryClass: Acme\StoreBundle\Entity\CarRepository
     id:
         id:

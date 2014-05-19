@@ -18,3 +18,8 @@ p {font-size: 1em}
 .font-size-medium {font-size: medium;}
 
 .inl-bl {display: inline-block;}
+
+.my_error {
+    background-color: #f99;
+    border-radius: 10px;
+}

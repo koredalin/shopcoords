@@ -4,7 +4,6 @@ namespace Acme\StoreBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use Acme\StoreBundle\Entity\Car;
 use Acme\StoreBundle\Form\CarType;
 
@@ -12,29 +11,27 @@ use Acme\StoreBundle\Form\CarType;
  * Car controller.
  *
  */
-class CarController extends Controller
-{
+class CarController extends Controller {
 
     /**
      * Lists all Car entities.
      *
      */
-    public function indexAction()
-    {
+    public function indexAction() {
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('AcmeStoreBundle:Car')->findAll();
 
         return $this->render('AcmeStoreBundle:Car:index.html.twig', array(
-            'entities' => $entities,
+                    'entities' => $entities,
         ));
     }
+
     /**
      * Creates a new Car entity.
      *
      */
-    public function createAction(Request $request)
-    {
+    public function createAction(Request $request) {
         $entity = new Car();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
@@ -42,26 +39,52 @@ class CarController extends Controller
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
-            $em->flush();
+            // $em->flush();
+
+
+
+
+            try {
+                $em->flush();
+            } catch (\Exception $e) {
+                $exception = $e->getMessage();
+                // Error on database call
+                // reset the entity manager
+                $this->getDoctrine()->resetEntityManager();
+                // reload the user repository and the user after resetting the entity manager
+                $userRepository = $this->getDoctrine()->getRepository('AcmeStoreBundle:Car');
+                // $user = $userRepository->findOneByEmail($email);
+
+                return $this->render('AcmeStoreBundle:Car:new.html.twig', array(
+                            'error' => 'Error: ' . $e->getMessage(),
+                            'page_title' => 'Validation data error',
+                            'entity' => $entity,
+                            'form' => $form->createView(),
+                ));
+            }
+
+
+
+
+
 
             return $this->redirect($this->generateUrl('car_show', array('id' => $entity->getId())));
         }
 
         return $this->render('AcmeStoreBundle:Car:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
+                    'entity' => $entity,
+                    'form' => $form->createView(),
         ));
     }
 
     /**
-    * Creates a form to create a Car entity.
-    *
-    * @param Car $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createCreateForm(Car $entity)
-    {
+     * Creates a form to create a Car entity.
+     *
+     * @param Car $entity The entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createCreateForm(Car $entity) {
         $form = $this->createForm(new CarType(), $entity, array(
             'action' => $this->generateUrl('car_create'),
             'method' => 'POST',
@@ -76,14 +99,13 @@ class CarController extends Controller
      * Displays a form to create a new Car entity.
      *
      */
-    public function newAction()
-    {
+    public function newAction() {
         $entity = new Car();
-        $form   = $this->createCreateForm($entity);
+        $form = $this->createCreateForm($entity);
 
         return $this->render('AcmeStoreBundle:Car:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
+                    'entity' => $entity,
+                    'form' => $form->createView(),
         ));
     }
 
@@ -91,8 +113,7 @@ class CarController extends Controller
      * Finds and displays a Car entity.
      *
      */
-    public function showAction($id)
-    {
+    public function showAction($id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('AcmeStoreBundle:Car')->find($id);
@@ -104,16 +125,15 @@ class CarController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('AcmeStoreBundle:Car:show.html.twig', array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),        ));
+                    'entity' => $entity,
+                    'delete_form' => $deleteForm->createView(),));
     }
 
     /**
      * Displays a form to edit an existing Car entity.
      *
      */
-    public function editAction($id)
-    {
+    public function editAction($id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('AcmeStoreBundle:Car')->find($id);
@@ -126,21 +146,20 @@ class CarController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('AcmeStoreBundle:Car:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+                    'entity' => $entity,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
     /**
-    * Creates a form to edit a Car entity.
-    *
-    * @param Car $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createEditForm(Car $entity)
-    {
+     * Creates a form to edit a Car entity.
+     *
+     * @param Car $entity The entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createEditForm(Car $entity) {
         $form = $this->createForm(new CarType(), $entity, array(
             'action' => $this->generateUrl('car_update', array('id' => $entity->getId())),
             'method' => 'PUT',
@@ -150,12 +169,12 @@ class CarController extends Controller
 
         return $form;
     }
+
     /**
      * Edits an existing Car entity.
      *
      */
-    public function updateAction(Request $request, $id)
-    {
+    public function updateAction(Request $request, $id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('AcmeStoreBundle:Car')->find($id);
@@ -175,17 +194,17 @@ class CarController extends Controller
         }
 
         return $this->render('AcmeStoreBundle:Car:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+                    'entity' => $entity,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
+
     /**
      * Deletes a Car entity.
      *
      */
-    public function deleteAction(Request $request, $id)
-    {
+    public function deleteAction(Request $request, $id) {
         $form = $this->createDeleteForm($id);
         $form->handleRequest($request);
 
@@ -211,13 +230,13 @@ class CarController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm($id)
-    {
+    private function createDeleteForm($id) {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('car_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
+                        ->setAction($this->generateUrl('car_delete', array('id' => $id)))
+                        ->setMethod('DELETE')
+                        ->add('submit', 'submit', array('label' => 'Delete'))
+                        ->getForm()
         ;
     }
+
 }

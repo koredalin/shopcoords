@@ -1,8 +1,14 @@
-{% extends '::base.html.twig' %}
+{# extends '::base.html.twig' #}
+
+{% extends "AcmeShopBundle:Calculator:layout.html.twig" %}
 
 {% block body -%}
     <h1>Car creation</h1>
 
+    <div class="my_error">
+        <p>{{ error }}</p>
+    </div>
+    
     {{ form(form) }}
 
         <ul class="record_actions">

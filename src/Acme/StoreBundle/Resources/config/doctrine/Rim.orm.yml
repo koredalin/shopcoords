@@ -1,0 +1,25 @@
+Acme\StoreBundle\Entity\Rim:
+    type: entity
+    table: rim
+    repositoryClass: Acme\StoreBundle\Entity\RimRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        size:
+            type: string
+            length: '60'
+        boltsNumber:
+            type: integer
+            column: bolts_number
+        carBrand:
+            type: string
+            length: '80'
+            column: car_brand
+        description:
+            type: string
+            length: 255
+    lifecycleCallbacks: {  }
